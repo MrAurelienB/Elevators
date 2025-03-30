@@ -4,23 +4,13 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+import {CanvasHandler} from './src/CanvasHandler.js';
+const canvasHandler = new CanvasHandler(canvas, ctx);
 
-window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-});
+//import { Elevator } from './src/Elevator.js';
+//console.log(new Elevator({capacity: 44}));
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "red";
-    ctx.beginPath();
-    ctx.arc(mouseX, mouseY, 20, 0, Math.PI * 2);
-    ctx.fill();
-    requestAnimationFrame(draw);
-}
-
-draw();
+canvasHandler.draw();
 
 
 /**
@@ -36,6 +26,7 @@ draw();
  *      - restriction d'étages
  *      - capacité (en nombre de personnes uniquement)
  *      - vitesse
+ *      - position
  * 
  *  Population:
  *  on modélise une population infinie qui peut venir de n'importe quel étage
@@ -44,8 +35,15 @@ draw();
  *    Pour une personne:
  *      - étage de départ
  *      - étage de destination
+ *      - vitesse pour monter/descendre (selon le rangement dans la cabine ?)
  * 
  * 
- * 
- * 
+ * La demande:
+ *  La demande en passager de chaque test doit être déterministe selon le type d'ascenseur.
+ *  
+ * L'efficacité:
+ *    pax / h
+ *    power de chaque ascenceur
+ *    nombre d'étages parcourus
+ *    taux de remplissage
  */
