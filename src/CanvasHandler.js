@@ -47,4 +47,5 @@ export class CanvasHandler {
         this.canvas.width = this.canvas.clientWidth; 
         this.canvas.height = this.canvas.clientHeight;
     } // ResizeCanvas
+
 }; // CanvasHandler

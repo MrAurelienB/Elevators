@@ -1,17 +1,7 @@
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+import {WindowHandler} from './src/WindowHandler.js';
 
-import {CanvasHandler} from './src/CanvasHandler.js';
-const canvasHandler = new CanvasHandler(canvas, ctx);
-
-//import { Elevator } from './src/Elevator.js';
-//console.log(new Elevator({capacity: 44}));
-
-canvasHandler.draw();
-
+const windowHandler = new WindowHandler();
 
 /**
  * 
