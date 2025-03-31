@@ -2,7 +2,7 @@
 import {WindowHandler} from './src/WindowHandler.js';
 
 const windowHandler = new WindowHandler();
-globalThis.windowHandler = windowHandler;
+window.windowHandler = windowHandler;
 
 /**
  * 
