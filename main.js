@@ -1,7 +1,9 @@
 
+import {ParameterHandler} from './src/ParameterHandler.js';
 import {WindowBaseHandler} from './src/WindowBaseHandler.js';
 
-const windowBaseHandler = new WindowBaseHandler();
+let parameterHandler = new ParameterHandler();
+const windowBaseHandler = new WindowBaseHandler(parameterHandler);
 window.windowBaseHandler = windowBaseHandler;
 
 /**

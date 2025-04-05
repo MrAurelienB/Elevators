@@ -47,13 +47,12 @@ canvas {
     justify-content: space-between;
 }
   
-  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .accordion:hover {
     background-color: #ccc;
 }
 
 .accordion .icon {
-
     transition: transform 0.3s linear;
 }
 
@@ -61,10 +60,41 @@ canvas {
     transform: rotate(180deg); /* rotate arrow down to up */
 }
   
-  /* Style the accordion panel. Note: hidden by default */
+/* Style the accordion panel. Note: hidden by default */
 .panel {
-    padding: 0 18px;
+    padding: 0 1em;
     background-color: white;
     display: none;
     overflow: hidden;
+}
+
+div.parameter {
+    margin-top: 10px;
+}
+
+label.parameter {
+    padding: 0 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+}
+
+.form-container {
+display: flex;
+    flex-direction: column; /* Stack the form fields vertically */
+    gap: 1em; /* Space between the rows */
+}
+
+.form-field {
+    display: flex;
+    align-items: center; /* Vertically align the label and input */
+}
+
+.form-field label {
+    margin-right: 10px; /* Space between label and input */
+    width: 150px; /* Fixed width for labels */
+}
+
+.form-field input {
+    flex-grow: 1; /* Input fields take up remaining space */
+    max-width: 60px; /* Optional: limit the input width */
 }
