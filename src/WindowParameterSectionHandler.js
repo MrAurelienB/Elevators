@@ -1,29 +1,26 @@
-import {CanvasHandler} from './CanvasHandler.js';
 
-export class WindowHandler {
+export class WindowParameterSectionHandler {
     constructor(){
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
 
-        this.canvasHandler = new CanvasHandler(canvas, ctx);
-        this.canvasHandler.draw();
-
-        this.initialize();
     }
 
     initialize(){
+        this.addAccordionSection('Elevators', 'parameters of elevators');
         for (let i = 1; i < 8; i++)
-            this.addParameterAccordionSection('rightPanel', `Section ${i}`, 'Salut');
+            this.addAccordionSection(`Section ${i}`, 'Salut');
     } // initialize
 
-    addParameterAccordionSection(panelName, title, textContent) {
+    addAccordionSection(title, textContent) {
         // Create button
         let button = document.createElement('button');
         button.classList.add('accordion');
         button.textContent = title;
+
+        let arrow = document.createElement('i');
+        arrow.classList.add('fas');
+        arrow.classList.add('fa-chevron-down');
+        arrow.classList.add('icon');
+        button.appendChild(arrow);
     
         // Create panel
         let panel = document.createElement('div');
@@ -35,7 +32,7 @@ export class WindowHandler {
         panel.appendChild(para);
     
         // Append to container
-        let accContainer = document.getElementById(panelName);
+        let accContainer = document.getElementById('rightPanel');
         accContainer.appendChild(button);
         accContainer.appendChild(panel);
     
@@ -54,5 +51,6 @@ export class WindowHandler {
                 }
             }
         });
-    }
-}
+    } // addAccordionSection
+
+}; // class WindowParameterSectionHandler

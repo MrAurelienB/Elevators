@@ -19,6 +19,4 @@ export class Elevator {
         this.current_floor = this.initial_floor;
         this.current_load = this.initial_load;
     }
-
-
 }; // class Elevator

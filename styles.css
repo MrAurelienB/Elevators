@@ -37,17 +37,28 @@ canvas {
     background-color: #eee;
     color: #444;
     cursor: pointer;
-    padding: 18px;
+    padding: 1em;
     width: 100%;
     text-align: left;
     border: none;
     outline: none;
     transition: 0.4s;
+    display: flex;
+    justify-content: space-between;
 }
   
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .accordion:hover {
     background-color: #ccc;
+}
+
+.accordion .icon {
+
+    transition: transform 0.3s linear;
+}
+
+.accordion.active .icon {
+    transform: rotate(180deg); /* rotate arrow down to up */
 }
   
   /* Style the accordion panel. Note: hidden by default */

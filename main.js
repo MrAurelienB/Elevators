@@ -1,8 +1,8 @@
 
-import {WindowHandler} from './src/WindowHandler.js';
+import {WindowBaseHandler} from './src/WindowBaseHandler.js';
 
-const windowHandler = new WindowHandler();
-window.windowHandler = windowHandler;
+const windowBaseHandler = new WindowBaseHandler();
+window.windowBaseHandler = windowBaseHandler;
 
 /**
  * 

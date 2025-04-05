@@ -1,5 +1,5 @@
 
-export class CanvasHandler {
+export class WindowCanvasHandler {
     constructor(canvas, ctx){
         this.canvas = canvas;
         this.ctx = ctx;
@@ -48,4 +48,4 @@ export class CanvasHandler {
         this.canvas.height = this.canvas.clientHeight;
     } // ResizeCanvas
 
-}; // CanvasHandler
+}; // WindowCanvasHandler
