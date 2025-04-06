@@ -39,4 +39,14 @@ window.windowBaseHandler = windowBaseHandler;
  *    power de chaque ascenceur
  *    nombre d'étages parcourus
  *    taux de remplissage
+ * 
+ * 
+ * 
+ * 
+ * Regle de fonctionnement de base d'un ascenseur
+ *  - un ascenceur doit aller dans une seule direction si des passagers montent dedans   <<--- peut amener un gain dans une V2
+ *  - on considère que les passagers montent dans l'ascenseur seulement si ils savent qu'il va dans leur direction <<-- à tester (en faire un paramètre)
+ * 
+ * 
+ * 
  */

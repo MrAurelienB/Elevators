@@ -7,8 +7,6 @@ export class WindowParameterSectionHandler {
     initialize(){
         this.addElevatorParameterSection();
         this.addFloorsParameterSection();
-        for (let i = 1; i < 8; i++)
-            this.addAccordionSection(`Section ${i}`, 'Salut');
     } // initialize
 
     addAccordionSection(title) {
