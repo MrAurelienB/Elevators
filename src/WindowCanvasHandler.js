@@ -59,7 +59,7 @@ export class WindowCanvasHandler {
     resizeCanvas() {
         // Set CSS size (visual size)
         this.canvas.style.width = "80vw"; // 80% of viewport width
-        this.canvas.style.height = "80vh"; // 60% of viewport height
+        this.canvas.style.height = "90vh"; // 90% of viewport height
     
         // Adjust internal resolution to avoid blurriness
         this.canvas.width = this.canvas.clientWidth; 

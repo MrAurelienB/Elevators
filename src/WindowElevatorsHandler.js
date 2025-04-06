@@ -13,7 +13,7 @@ export class WindowElevatorsHandler {
 
         // draw floors
 
-        const floorHeight = 50;
+        const floorHeight = 45;
         const interFloorSpace = 2; // apply to each floor
         const floorSideSpace = 100;
 
