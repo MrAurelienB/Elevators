@@ -62,7 +62,7 @@ canvas {
   
 /* Style the accordion panel. Note: hidden by default */
 .panel {
-    padding: 0 1em;
+    padding: 0.5em 0em 1em 0em; /* top right bottom left */
     background-color: white;
     display: none;
     overflow: hidden;
@@ -91,7 +91,7 @@ display: flex;
 
 .form-field label {
     margin-right: 10px; /* Space between label and input */
-    width: 150px; /* Fixed width for labels */
+    width: 100px; /* Fixed width for labels */
 }
 
 .form-field input {

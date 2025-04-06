@@ -41,70 +41,80 @@ export class WindowParameterSectionHandler {
                     const isAlreadyActive = panel.style.display === 'block';
                     acc[j].classList.toggle('active', !isAlreadyActive);
                     panel.style.display = isAlreadyActive ? 'none' : 'block';
-                } else {
+                }/* else {
+                    // untoggle every other panels
                     acc[j].classList.toggle('active', false);
                     panel.style.display = 'none';
-                }
+                }*/
             }
         });
 
         return panel;
     } // addAccordionSection
 
+    addIntInputFiledParam(panel, labelTxt, min, max, initialValue){
+        const paramDiv = document.createElement('div');
+        paramDiv.classList.add('parameter');
+        paramDiv.classList.add('form-field');
+
+        const label = document.createElement('label');
+        label.textContent = labelTxt;
+        label.htmlFor = labelTxt.replace(' ', '-');
+        label.classList.add('parameter');
+      
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = labelTxt.replace(' ', '-');
+        input.value = initialValue;
+    
+        input.addEventListener('input', () => {
+            const value = input.value;
+            if (!Number.isInteger(+value)) {
+                input.value = min;
+            } else if (+value < min){
+                input.value = min;
+            } else if (+value > max){
+                input.value = max;
+            }
+        });
+
+        paramDiv.appendChild(label);
+        paramDiv.appendChild(input);
+        panel.appendChild(paramDiv);
+        return input;
+    } // addIntInputFiledParam()
+
     addElevatorParameterSection(){
         let panel = this.addAccordionSection('Elevators');
-        /*
-        let para = document.createElement('p');
-        para.textContent = 'blablabla';
-        panel.appendChild(para);
-        */
+
+        let elevatorCountInput = this.addIntInputFiledParam(panel, 'Elevator Count',
+                                                            this.parameterHandler.minElevatorCount,
+                                                            this.parameterHandler.maxElevatorCount,
+                                                            this.parameterHandler.elevatorCount);
+
+        elevatorCountInput.addEventListener('input', () => {
+            this.parameterHandler.elevatorCount = +elevatorCountInput.value;
+        });
     } // addElevatorParameterSection()
 
     addFloorsParameterSection(){
         let panel = this.addAccordionSection('Floors');
 
-        const addFloorParam = function(labelTxt, min, max, initialValue){
-            const paramDiv = document.createElement('div');
-            paramDiv.classList.add('parameter');
-            paramDiv.classList.add('form-field');
-    
-            const label = document.createElement('label');
-            label.textContent = labelTxt;
-            label.htmlFor = labelTxt.replace(' ', '-');
-            label.classList.add('parameter');
-          
-            const input = document.createElement('input');
-            input.type = 'number';
-            input.id = labelTxt.replace(' ', '-');
-            input.value = initialValue;
-        
-            input.addEventListener('input', () => {
-                const value = input.value;
-                if (!Number.isInteger(+value)) {
-                    input.value = min;
-                } else if (+value < min){
-                    input.value = min;
-                } else if (+value > max){
-                    input.value = max;
-                }
-            });
-
-            paramDiv.appendChild(label);
-            paramDiv.appendChild(input);
-            panel.appendChild(paramDiv);
-            return input;
-        }; // addFloorParam()
-
-        let lowestFloorInput = addFloorParam('Lowest Floor', this.parameterHandler.minLowestFloor, this.parameterHandler.maxLowestFloor, this.parameterHandler.lowestFloor);
+        let lowestFloorInput = this.addIntInputFiledParam(panel, 'Lowest Floor',
+                                                          this.parameterHandler.minLowestFloor,
+                                                          this.parameterHandler.maxLowestFloor,
+                                                          this.parameterHandler.lowestFloor);
         lowestFloorInput.addEventListener('input', () => {
-            this.parameterHandler.lowestFloor = lowestFloorInput.value;
+            this.parameterHandler.lowestFloor = +lowestFloorInput.value;
         });
 
-        let highestFloorInput = addFloorParam('Highest Floor', this.parameterHandler.minHighestFloor, this.parameterHandler.maxHighestFloor, this.parameterHandler.highestFloor);
+        let highestFloorInput = this.addIntInputFiledParam(panel, 'Highest Floor',
+                                                           this.parameterHandler.minHighestFloor,
+                                                           this.parameterHandler.maxHighestFloor,
+                                                           this.parameterHandler.highestFloor);
         highestFloorInput.addEventListener('input', () => {
-            this.parameterHandler.highestFloor = highestFloorInput.value;
+            this.parameterHandler.highestFloor = +highestFloorInput.value;
         });
-
     } // addFloorsParameterSection()
 
 }; // class WindowParameterSectionHandler
