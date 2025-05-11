@@ -1,8 +1,9 @@
-
+import {ElevatorsHandler} from './ElevatorsHandler.js';
 
 export class WindowElevatorsHandler {
     constructor(parameterHandler){
         this.parameterHandler = parameterHandler;
+        this.elevatorsHandler = new ElevatorsHandler(parameterHandler);
     }
 
     initialize(){
@@ -42,11 +43,18 @@ export class WindowElevatorsHandler {
         ctx.fillStyle = 'rgb(255 229 204)';
         ctx.strokeStyle = 'rgb(102 0 204)';
         ctx.lineWidth = elevatorBorderWidth;
-        for (let elevator = 0; elevator < this.parameterHandler.elevatorCount; elevator++){
-            const floorIdx = this.parameterHandler.getFloorIdx(0);
 
-            const elevatorX = floorSideSpace + interElevatorSpace * (elevator + 1) + elevatorWidth * elevator;
-            const elevatorY = canvas.height - floorHeight * (floorIdx + 1) + interFloorSpace;
+        this.elevatorsHandler.update();
+        for (let elevatorIdx = 0; elevatorIdx < this.elevatorsHandler.elevators.length; elevatorIdx++){
+            const elevator = this.elevatorsHandler.elevators[elevatorIdx];
+            const floorIdx = this.parameterHandler.getFloorIdx(elevator.current_floor);
+            const destFloorIdx = this.parameterHandler.getFloorIdx(elevator.destination_floor);
+
+            const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
+            const elevatorY_floorOrig = canvas.height - floorHeight * (floorIdx + 1) + interFloorSpace;
+            const elevatorY_floorDest = canvas.height - floorHeight * (destFloorIdx + 1) + interFloorSpace;
+            const elevatorY = elevatorY_floorOrig + (elevatorY_floorDest - elevatorY_floorOrig) * elevator.travelPercentage / 100;
+
             const elevatorH = floorHeight - 2 * interFloorSpace;
             ctx.fillRect(elevatorX, elevatorY, elevatorWidth, elevatorH);
             ctx.strokeRect(elevatorX + elevatorBorderWidth, elevatorY + elevatorBorderWidth, elevatorWidth - 2 * elevatorBorderWidth, elevatorH - 2 * elevatorBorderWidth);

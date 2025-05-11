@@ -18,5 +18,15 @@ export class Elevator {
         // current state
         this.current_floor = this.initial_floor;
         this.current_load = this.initial_load;
+
+        // moving information
+        this.destination_floor = this.initial_floor;
+        this.travelPercentage = 0;
+        console.log('new')
+    }
+
+    goToFloor(floor){
+        this.destination_floor = floor;
+        this.travelPercentage = 0;
     }
 }; // class Elevator

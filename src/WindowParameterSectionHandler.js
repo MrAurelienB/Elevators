@@ -52,7 +52,7 @@ export class WindowParameterSectionHandler {
         return panel;
     } // addAccordionSection
 
-    addIntInputFiledParam(panel, labelTxt, min, max, initialValue){
+    addIntInputFieldParam(panel, labelTxt, min, max, initialValue){
         const paramDiv = document.createElement('div');
         paramDiv.classList.add('parameter');
         paramDiv.classList.add('form-field');
@@ -82,12 +82,12 @@ export class WindowParameterSectionHandler {
         paramDiv.appendChild(input);
         panel.appendChild(paramDiv);
         return input;
-    } // addIntInputFiledParam()
+    } // addIntInputFieldParam()
 
     addElevatorParameterSection(){
         let panel = this.addAccordionSection('Elevators');
 
-        let elevatorCountInput = this.addIntInputFiledParam(panel, 'Elevator Count',
+        let elevatorCountInput = this.addIntInputFieldParam(panel, 'Elevator Count',
                                                             this.parameterHandler.minElevatorCount,
                                                             this.parameterHandler.maxElevatorCount,
                                                             this.parameterHandler.elevatorCount);
@@ -100,7 +100,7 @@ export class WindowParameterSectionHandler {
     addFloorsParameterSection(){
         let panel = this.addAccordionSection('Floors');
 
-        let lowestFloorInput = this.addIntInputFiledParam(panel, 'Lowest Floor',
+        let lowestFloorInput = this.addIntInputFieldParam(panel, 'Lowest Floor',
                                                           this.parameterHandler.minLowestFloor,
                                                           this.parameterHandler.maxLowestFloor,
                                                           this.parameterHandler.lowestFloor);
@@ -108,7 +108,7 @@ export class WindowParameterSectionHandler {
             this.parameterHandler.lowestFloor = +lowestFloorInput.value;
         });
 
-        let highestFloorInput = this.addIntInputFiledParam(panel, 'Highest Floor',
+        let highestFloorInput = this.addIntInputFieldParam(panel, 'Highest Floor',
                                                            this.parameterHandler.minHighestFloor,
                                                            this.parameterHandler.maxHighestFloor,
                                                            this.parameterHandler.highestFloor);
