@@ -1,9 +1,8 @@
-import {ElevatorsHandler} from './ElevatorsHandler.js';
 
 export class WindowElevatorsHandler {
-    constructor(parameterHandler){
+    constructor(parameterHandler, elevatorsHandler){
         this.parameterHandler = parameterHandler;
-        this.elevatorsHandler = new ElevatorsHandler(parameterHandler);
+        this.elevatorsHandler = elevatorsHandler;
     }
 
     initialize(){

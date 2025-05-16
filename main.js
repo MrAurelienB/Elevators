@@ -1,9 +1,11 @@
-
+import {ElevatorsHandler} from './src/ElevatorsHandler.js';
 import {ParameterHandler} from './src/ParameterHandler.js';
-import {WindowBaseHandler} from './src/WindowBaseHandler.js';
+import {WindowBaseHandler} from './src/window/WindowBaseHandler.js';
 
-let parameterHandler = new ParameterHandler();
-const windowBaseHandler = new WindowBaseHandler(parameterHandler);
+const parameterHandler = new ParameterHandler();
+const elevatorsHandler = new ElevatorsHandler(parameterHandler);
+
+const windowBaseHandler = new WindowBaseHandler(parameterHandler, elevatorsHandler);
 window.windowBaseHandler = windowBaseHandler;
 
 /**

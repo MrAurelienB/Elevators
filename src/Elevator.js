@@ -22,7 +22,6 @@ export class Elevator {
         // moving information
         this.destination_floor = this.initial_floor;
         this.travelPercentage = 0;
-        console.log('new')
     }
 
     goToFloor(floor){
