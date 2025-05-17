@@ -2,12 +2,8 @@
 export class Elevator {
     constructor(overwriteOptions = {}){
 
-        // parameter
-        this.capacity = 10;
-        this.velocity = 0;
-
-        this.lowest_accessible_floor = 0;
-        this.highest_accessible_floor = 0;
+        // this.lowest_accessible_floor = 0;
+        // this.highest_accessible_floor = 0;
 
         // initial state
         this.initial_floor = 0;

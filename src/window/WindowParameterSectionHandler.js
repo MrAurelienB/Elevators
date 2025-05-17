@@ -95,18 +95,20 @@ export class WindowParameterSectionHandler {
         elevatorCountInput.addEventListener('input', () => {
             this.parameterHandler.elevatorCount = +elevatorCountInput.value;
         });
+
+        let elevatorSpeedInput = this.addIntInputFieldParam(panel, 'Elevator Speed',
+                                                            this.parameterHandler.minElevatorSpeed,
+                                                            this.parameterHandler.maxElevatorSpeed,
+                                                            this.parameterHandler.elevatorSpeed);
+
+        elevatorSpeedInput.addEventListener('input', () => {
+            console.log('change elevator speed', +elevatorSpeedInput.value)
+            this.parameterHandler.elevatorSpeed = +elevatorSpeedInput.value;
+        });
     } // addElevatorParameterSection()
 
     addFloorsParameterSection(){
         let panel = this.addAccordionSection('Floors');
-
-        let lowestFloorInput = this.addIntInputFieldParam(panel, 'Lowest Floor',
-                                                          this.parameterHandler.minLowestFloor,
-                                                          this.parameterHandler.maxLowestFloor,
-                                                          this.parameterHandler.lowestFloor);
-        lowestFloorInput.addEventListener('input', () => {
-            this.parameterHandler.lowestFloor = +lowestFloorInput.value;
-        });
 
         let highestFloorInput = this.addIntInputFieldParam(panel, 'Highest Floor',
                                                            this.parameterHandler.minHighestFloor,
@@ -114,6 +116,14 @@ export class WindowParameterSectionHandler {
                                                            this.parameterHandler.highestFloor);
         highestFloorInput.addEventListener('input', () => {
             this.parameterHandler.highestFloor = +highestFloorInput.value;
+        });
+
+        let lowestFloorInput = this.addIntInputFieldParam(panel, 'Lowest Floor',
+                                                          this.parameterHandler.minLowestFloor,
+                                                          this.parameterHandler.maxLowestFloor,
+                                                          this.parameterHandler.lowestFloor);
+        lowestFloorInput.addEventListener('input', () => {
+            this.parameterHandler.lowestFloor = +lowestFloorInput.value;
         });
     } // addFloorsParameterSection()
 

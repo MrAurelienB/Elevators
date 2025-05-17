@@ -14,9 +14,27 @@ export class ParameterHandler {
         this.minElevatorCount = 1;
         this.maxElevatorCount = 22;
         this.elevatorCount = this.minElevatorCount;
+
+        // ELEVATOR
+        this.minElevatorSpeed = 1;
+        this.maxElevatorSpeed = 20;
+        this.elevatorSpeed = 5;
+        this.elevatorSpeedFactor = 0.35;
+    }
+
+    getElevatorSpeed(){
+        return this.elevatorSpeed;
     }
 
     getFloorIdx(floor){
         return floor - this.lowestFloor;
     } // getFloorIdx
+
+    getHighestFloor(){
+        return this.highestFloor;
+    }
+
+    getLowestFloor(){
+        return this.lowestFloor;
+    }
 }  // class ParameterHandler

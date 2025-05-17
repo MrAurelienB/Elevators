@@ -52,7 +52,7 @@ export class WindowElevatorsHandler {
             const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
             const elevatorY_floorOrig = canvas.height - floorHeight * (floorIdx + 1) + interFloorSpace;
             const elevatorY_floorDest = canvas.height - floorHeight * (destFloorIdx + 1) + interFloorSpace;
-            const elevatorY = elevatorY_floorOrig + (elevatorY_floorDest - elevatorY_floorOrig) * elevator.travelPercentage / 100;
+            const elevatorY = elevatorY_floorOrig + (elevatorY_floorDest - elevatorY_floorOrig) * elevator.travelPercentage * this.parameterHandler.elevatorSpeedFactor/ 100;
 
             const elevatorH = floorHeight - 2 * interFloorSpace;
             ctx.fillRect(elevatorX, elevatorY, elevatorWidth, elevatorH);
