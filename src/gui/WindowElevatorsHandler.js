@@ -1,8 +1,11 @@
+import {ElevatorImage} from './ElevatorImage.js';
 
 export class WindowElevatorsHandler {
     constructor(parameterHandler, elevatorsHandler){
         this.parameterHandler = parameterHandler;
         this.elevatorsHandler = elevatorsHandler;
+
+        this.elevatorImage = new ElevatorImage('./resources/images/elevator_doors_3.jpg');
     }
 
     initialize(){
@@ -43,6 +46,7 @@ export class WindowElevatorsHandler {
         ctx.strokeStyle = 'rgb(102 0 204)';
         ctx.lineWidth = elevatorBorderWidth;
 
+
         this.elevatorsHandler.update();
         for (let elevatorIdx = 0; elevatorIdx < this.elevatorsHandler.elevators.length; elevatorIdx++){
             const elevator = this.elevatorsHandler.elevators[elevatorIdx];
@@ -50,8 +54,11 @@ export class WindowElevatorsHandler {
             const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
             const elevatorY = canvas.height - floorHeight * (elevator.floor_position / 100 + 1) + interFloorSpace; // TODO: constante
             const elevatorH = floorHeight - 2 * interFloorSpace;
-            ctx.fillRect(elevatorX, elevatorY, elevatorWidth, elevatorH);
-            ctx.strokeRect(elevatorX + elevatorBorderWidth, elevatorY + elevatorBorderWidth, elevatorWidth - 2 * elevatorBorderWidth, elevatorH - 2 * elevatorBorderWidth);
+            //ctx.fillRect(elevatorX, elevatorY, elevatorWidth, elevatorH);
+            //ctx.strokeRect(elevatorX + elevatorBorderWidth, elevatorY + elevatorBorderWidth, elevatorWidth - 2 * elevatorBorderWidth, elevatorH - 2 * elevatorBorderWidth);
+
+            const IsMoreThanHalfIdle = elevator.current_idle_time_remaining < 0.5 * this.parameterHandler.getIdleTime(elevator.currentState());
+            this.elevatorImage.draw(ctx, elevatorX, elevatorY, elevatorWidth, elevatorH, elevator.currentState(), IsMoreThanHalfIdle);
         }
     }
 } // class WindowElevatorsHandler

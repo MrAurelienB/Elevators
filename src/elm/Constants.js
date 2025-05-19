@@ -1,0 +1,2 @@
+
+export const ELEVATOR_SPEED_POSITION_FACTOR = 100;

@@ -21,10 +21,15 @@ export class Elevator {
         this.current_load = this.initial_load;
         this.current_state = this.initial_state;
         this.current_direction = this.initial_direction;
+        this.current_idle_time_remaining = this.parameterHandler.getIdleTime(this.initial_state);
 
         // moving information
         this.destination_floor = this.initial_floor; // not an index
         this.floor_position = this.parameterHandler.getPositionFromFloor(this.current_floor);
+    }
+
+    currentState(){
+        return this.current_state;
     }
 
     directionSpeed(){
@@ -42,5 +47,14 @@ export class Elevator {
             return this.floor_position <= this.parameterHandler.getPositionFromFloor(this.destination_floor);
         if (this.current_direction == ELEVATOR_DIRECTION.UP)
             return this.floor_position >= this.parameterHandler.getPositionFromFloor(this.destination_floor);
+    }
+
+    isReadyToMove(){
+        return this.current_state == ELEVATOR_STATE.DOOR_CLOSED && this.current_idle_time_remaining == 0;
+    }
+
+    setCurrentState(state){
+        this.current_state = state;
+        this.current_idle_time_remaining = this.parameterHandler.getIdleTime(state);
     }
 }; // class Elevator

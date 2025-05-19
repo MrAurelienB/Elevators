@@ -1,3 +1,5 @@
+import {ELEVATOR_SPEED_POSITION_FACTOR} from './Constants.js';
+import {ELEVATOR_STATE} from './Enums.js';
 
 export class ParameterHandler {
     constructor(){
@@ -20,6 +22,14 @@ export class ParameterHandler {
         this.maxElevatorSpeed = 20;
         this.elevatorSpeed = 5;
         this.elevatorSpeedFactor = 0.35;
+
+        // ELEVATOR IDLE TIMES
+        this.idleTimes = new Array(ELEVATOR_STATE.MAX).fill(0);
+        this.idleTimes[ELEVATOR_STATE.LOADING] = 20; // per people
+        this.idleTimes[ELEVATOR_STATE.UNLOADING] = 20; // per people
+        this.idleTimes[ELEVATOR_STATE.DOOR_OPENING] = 50;
+        this.idleTimes[ELEVATOR_STATE.DOOR_CLOSING] = 50;
+        this.idleTimes[ELEVATOR_STATE.WAITING] = 50; // TODO temporaire le temps que l'on gere le loading/unloading
     }
 
     getElevatorSpeed(){
@@ -34,11 +44,19 @@ export class ParameterHandler {
         return this.highestFloor;
     }
 
+    getIdleTime(state){
+        return this.idleTimes[state];
+    }
+
     getLowestFloor(){
         return this.lowestFloor;
     }
 
     getPositionFromFloor(floor){
-        return 100 * this.getFloorIdx(floor);
+        return ELEVATOR_SPEED_POSITION_FACTOR * this.getFloorIdx(floor);
+    }
+
+    getRandomFloor(){
+        return Math.floor(Math.random() * (this.highestFloor - this.lowestFloor + 1) + this.lowestFloor);
     }
 }  // class ParameterHandler

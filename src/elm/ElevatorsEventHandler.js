@@ -5,8 +5,8 @@ export class ElevatorsEventHandler {
         this.parameterHandler = parameterHandler;
     }
 
-    goToFloor(elevator, floorIdx){
-        elevator.destination_floor = floorIdx;
+    goToFloor(elevator, floor){
+        elevator.destination_floor = floor;
         if (elevator.destination_floor != elevator.current_floor){
             elevator.current_state = ELEVATOR_STATE.MOVING;
             elevator.current_direction = elevator.destination_floor < elevator.current_floor ? ELEVATOR_DIRECTION.DOWN : ELEVATOR_DIRECTION.UP;
@@ -16,41 +16,64 @@ export class ElevatorsEventHandler {
     // basically to give orders to elevators
     onUpdateBefore(elevator){
         // default behavior is to go up and down.
-        if (elevator.current_state == ELEVATOR_STATE.WAITING){
-            if (elevator.current_floor == this.parameterHandler.getLowestFloor())
-                this.goToFloor(elevator, this.parameterHandler.getHighestFloor());
-            else if (elevator.current_floor == this.parameterHandler.getHighestFloor())
-                this.goToFloor(elevator, this.parameterHandler.getLowestFloor());
-            else
-                this.goToFloor(elevator, this.parameterHandler.getLowestFloor());
-        }
+        if (elevator.isReadyToMove())
+            this.goToFloor(elevator, this.parameterHandler.getRandomFloor());
     }
 
     // basically to update numbers
     onUpdate(elevator){
-        if (elevator.current_state == ELEVATOR_STATE.MOVING){
+        const state = elevator.currentState();
+        if (state == ELEVATOR_STATE.MOVING){
             elevator.floor_position += this.parameterHandler.getElevatorSpeed() * elevator.directionSpeed();
-        } else if (elevator.current_state == ELEVATOR_STATE.WAITING){
-            if (elevator.destination_floor != elevator.current_floor)
-                elevator.floor_position += this.parameterHandler.getElevatorSpeed() * elevator.directionSpeed();
-        } else if (elevator.current_state == ELEVATOR_STATE.LOADING){
+        } else if (state == ELEVATOR_STATE.WAITING){
+            // TODO: il faudra gerer le unloading/loading
+            elevator.current_idle_time_remaining -= 1;
+        } else if (state == ELEVATOR_STATE.LOADING){
             // TODO: do nothing for now
+        } else if (state == ELEVATOR_STATE.UNLOADING){
+            // TODO: do nothing for now
+        } else if (state == ELEVATOR_STATE.DOOR_OPENING){
+            elevator.current_idle_time_remaining -= 1;
+        } else if (state == ELEVATOR_STATE.DOOR_CLOSING){
+            elevator.current_idle_time_remaining -= 1;
+        } else if (state == ELEVATOR_STATE.DOOR_OPENED){
+            // TODO: do nothing for now
+        } else if (state == ELEVATOR_STATE.DOOR_CLOSED){
+            // TODO: do nothing for now
+        } else {
+            alert('error occured in onUpdate()', state);
         }
     }
 
     // basically to update state
     onUpdateAfter(elevator){
-        if (elevator.current_state == ELEVATOR_STATE.MOVING){
+        const state = elevator.currentState();
+        if (state == ELEVATOR_STATE.MOVING){
             if (elevator.hasReachedDestFloor()){
                 elevator.floor_position = this.parameterHandler.getPositionFromFloor(elevator.destination_floor);
                 elevator.current_floor = elevator.destination_floor;
-                elevator.current_state = ELEVATOR_STATE.WAITING;
                 elevator.current_direction = ELEVATOR_DIRECTION.NONE;
+                elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENING);
             }
-        } else if (elevator.current_state == ELEVATOR_STATE.WAITING){
-            // TODO: 
-        } else if (elevator.current_state == ELEVATOR_STATE.LOADING){
+        } else if (state == ELEVATOR_STATE.WAITING){
+            if (elevator.current_idle_time_remaining == 0)
+                elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSING);
+        } else if (state == ELEVATOR_STATE.LOADING){
             // TODO: do nothing for now
+        } else if (state == ELEVATOR_STATE.UNLOADING){
+            // TODO: do nothing for now
+        } else if (state == ELEVATOR_STATE.DOOR_OPENING){
+            if (elevator.current_idle_time_remaining == 0)
+                elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENED);
+        } else if (state == ELEVATOR_STATE.DOOR_CLOSING){
+            if (elevator.current_idle_time_remaining == 0)
+                elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSED);
+        } else if (state == ELEVATOR_STATE.DOOR_OPENED){
+            elevator.setCurrentState(ELEVATOR_STATE.WAITING);
+        } else if (state == ELEVATOR_STATE.DOOR_CLOSED){
+            // TODO: do nothing for now
+        } else {
+            alert('error occured in onUpdate()');
         }
     }
 }; // class ElevatorsEventHandler
