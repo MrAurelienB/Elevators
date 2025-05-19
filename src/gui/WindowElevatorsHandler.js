@@ -46,14 +46,9 @@ export class WindowElevatorsHandler {
         this.elevatorsHandler.update();
         for (let elevatorIdx = 0; elevatorIdx < this.elevatorsHandler.elevators.length; elevatorIdx++){
             const elevator = this.elevatorsHandler.elevators[elevatorIdx];
-            const floorIdx = this.parameterHandler.getFloorIdx(elevator.current_floor);
-            const destFloorIdx = this.parameterHandler.getFloorIdx(elevator.destination_floor);
 
             const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
-            const elevatorY_floorOrig = canvas.height - floorHeight * (floorIdx + 1) + interFloorSpace;
-            const elevatorY_floorDest = canvas.height - floorHeight * (destFloorIdx + 1) + interFloorSpace;
-            const elevatorY = elevatorY_floorOrig + (elevatorY_floorDest - elevatorY_floorOrig) * elevator.travelPercentage * this.parameterHandler.elevatorSpeedFactor/ 100;
-
+            const elevatorY = canvas.height - floorHeight * (elevator.floor_position / 100 + 1) + interFloorSpace; // TODO: constante
             const elevatorH = floorHeight - 2 * interFloorSpace;
             ctx.fillRect(elevatorX, elevatorY, elevatorWidth, elevatorH);
             ctx.strokeRect(elevatorX + elevatorBorderWidth, elevatorY + elevatorBorderWidth, elevatorWidth - 2 * elevatorBorderWidth, elevatorH - 2 * elevatorBorderWidth);

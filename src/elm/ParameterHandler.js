@@ -23,7 +23,7 @@ export class ParameterHandler {
     }
 
     getElevatorSpeed(){
-        return this.elevatorSpeed;
+        return this.elevatorSpeed * this.elevatorSpeedFactor;
     }
 
     getFloorIdx(floor){
@@ -36,5 +36,9 @@ export class ParameterHandler {
 
     getLowestFloor(){
         return this.lowestFloor;
+    }
+
+    getPositionFromFloor(floor){
+        return 100 * this.getFloorIdx(floor);
     }
 }  // class ParameterHandler
