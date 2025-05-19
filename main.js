@@ -1,11 +1,9 @@
-import {ElevatorsHandler} from './src/ElevatorsHandler.js';
-import {ParameterHandler} from './src/ParameterHandler.js';
-import {WindowBaseHandler} from './src/window/window.js';
+import {ComponentFactory} from './src/elm/elm.js';
+import {WindowBaseHandler} from './src/gui/gui.js';
 
-const parameterHandler = new ParameterHandler();
-const elevatorsHandler = new ElevatorsHandler(parameterHandler);
-
-const windowBaseHandler = new WindowBaseHandler(parameterHandler, elevatorsHandler);
+const componentFactory = new ComponentFactory();
+const windowBaseHandler = new WindowBaseHandler(componentFactory.parameterHandler,
+                                                componentFactory.elevatorsHandler);
 window.windowBaseHandler = windowBaseHandler;
 
 /**
