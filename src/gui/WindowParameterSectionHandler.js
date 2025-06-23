@@ -52,11 +52,27 @@ export class WindowParameterSectionHandler {
         return panel;
     } // addAccordionSection
 
-    addIntInputFieldParam(panel, labelTxt, min, max, initialValue){
+    addCheckBox(panel, labelTxt, defaultValue){
+        const label = document.createElement('label');
+        label.textContent = labelTxt;
+        label.htmlFor = "enableCheckbox";
+        label.classList.add('parameter');
+      
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = "enableCheckbox";
+        checkbox.checked = defaultValue;
+
         const paramDiv = document.createElement('div');
         paramDiv.classList.add('parameter');
         paramDiv.classList.add('form-field');
+        paramDiv.appendChild(label);
+        paramDiv.appendChild(checkbox);
+        panel.appendChild(paramDiv);
+        return checkbox;
+    }
 
+    addIntInputFieldParam(panel, labelTxt, min, max, defaultValue){
         const label = document.createElement('label');
         label.textContent = labelTxt;
         label.htmlFor = labelTxt.replace(' ', '-');
@@ -65,7 +81,7 @@ export class WindowParameterSectionHandler {
         const input = document.createElement('input');
         input.type = 'number';
         input.id = labelTxt.replace(' ', '-');
-        input.value = initialValue;
+        input.value = defaultValue;
     
         input.addEventListener('input', () => {
             const value = input.value;
@@ -78,6 +94,9 @@ export class WindowParameterSectionHandler {
             }
         });
 
+        const paramDiv = document.createElement('div');
+        paramDiv.classList.add('parameter');
+        paramDiv.classList.add('form-field');
         paramDiv.appendChild(label);
         paramDiv.appendChild(input);
         panel.appendChild(paramDiv);
@@ -104,6 +123,12 @@ export class WindowParameterSectionHandler {
         elevatorSpeedInput.addEventListener('input', () => {
             console.log('change elevator speed', +elevatorSpeedInput.value)
             this.parameterHandler.elevatorSpeed = +elevatorSpeedInput.value;
+        });
+
+        let showElevatorDestinationCheckBox = this.addCheckBox(panel, 'my checkbox',
+                                                               this.parameterHandler.showElevatorDestination);
+        showElevatorDestinationCheckBox.addEventListener("change", () => {
+            this.parameterHandler.showElevatorDestination = showElevatorDestinationCheckBox.checked;
         });
     } // addElevatorParameterSection()
 

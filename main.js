@@ -16,7 +16,7 @@ window.windowBaseHandler = windowBaseHandler;
  *      - nombre d'étages en sous-sol
  * 
  *  Ascenseur:
- *      - restriction d'étages
+ *      *- restriction d'étages
  *      - capacité (en nombre de personnes uniquement)
  *      - vitesse
  *      - position

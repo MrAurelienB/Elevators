@@ -42,20 +42,37 @@ export class WindowElevatorsHandler {
         const elevatorWidth = 50;
         const elevatorBorderWidth = 1;
 
-        ctx.fillStyle = 'rgb(255 229 204)';
-        ctx.strokeStyle = 'rgb(102 0 204)';
-        ctx.lineWidth = elevatorBorderWidth;
-
-
         this.elevatorsHandler.update();
         for (let elevatorIdx = 0; elevatorIdx < this.elevatorsHandler.elevators.length; elevatorIdx++){
             const elevator = this.elevatorsHandler.elevators[elevatorIdx];
 
             const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
-            const elevatorY = canvas.height - floorHeight * (elevator.floor_position / 100 + 1) + interFloorSpace; // TODO: constante
+            const elevatorY = canvas.height - floorHeight * (elevator.floor_position / 100 + 1) + interFloorSpace;
             const elevatorH = floorHeight - 2 * interFloorSpace;
             //ctx.fillRect(elevatorX, elevatorY, elevatorWidth, elevatorH);
             //ctx.strokeRect(elevatorX + elevatorBorderWidth, elevatorY + elevatorBorderWidth, elevatorWidth - 2 * elevatorBorderWidth, elevatorH - 2 * elevatorBorderWidth);
+
+            // first show the elevator destination (with a red dot for now)
+            console.log(this.parameterHandler.showElevatorDestination);
+            if (this.parameterHandler.showElevatorDestination){
+                const dest_y = canvas.height - floorHeight * this.parameterHandler.getFloorIdx(elevator.destination_floor) - 0.5 * floorHeight;
+
+                ctx.fillStyle = 'red';
+                ctx.strokeStyle = 'red';
+
+                ctx.beginPath();
+                ctx.arc(elevatorX + 0.5 * elevatorWidth, dest_y, 10, 0, Math.PI * 2); // (x, y, radius, startAngle, endAngle)
+                ctx.fill(); // Fill the circle
+
+                ctx.lineWidth = elevatorBorderWidth;
+                ctx.moveTo(elevatorX + 0.5 * elevatorWidth, elevatorY + 0.5 * floorHeight);
+                ctx.lineTo(elevatorX + 0.5 * elevatorWidth, dest_y);
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = 'rgb(255 229 204)';
+            ctx.strokeStyle = 'rgb(102 0 204)';
+            ctx.lineWidth = elevatorBorderWidth;
 
             const IsMoreThanHalfIdle = elevator.current_idle_time_remaining < 0.5 * this.parameterHandler.getIdleTime(elevator.currentState());
             this.elevatorImage.draw(ctx, elevatorX, elevatorY, elevatorWidth, elevatorH, elevator.currentState(), IsMoreThanHalfIdle);

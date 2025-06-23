@@ -22,6 +22,7 @@ export class ParameterHandler {
         this.maxElevatorSpeed = 20;
         this.elevatorSpeed = 5;
         this.elevatorSpeedFactor = 0.35;
+        this.showElevatorDestination = true;
 
         // ELEVATOR IDLE TIMES
         this.idleTimes = new Array(ELEVATOR_STATE.MAX).fill(0);
