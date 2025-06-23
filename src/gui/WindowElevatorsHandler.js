@@ -84,8 +84,13 @@ export class WindowElevatorsHandler {
         // print the number of passengers waiting
         ctx.font = "15px Arial";
         ctx.fillStyle = 'black';
-        const y = canvas.height - floorHeight * this.parameterHandler.getFloorIdx(floor) - 0.5 * floorHeight + 1;
-        ctx.fillText('0', 50, y);
+
+        const floorIdx = this.parameterHandler.getFloorIdx(floor);
+        const y = canvas.height - floorHeight * floorIdx - 0.5 * floorHeight + 1;
+        const paxCount = this.passengersHandler.getPassengersCount(floorIdx);
+
+        if (paxCount !== null && paxCount !== undefined)
+            ctx.fillText(paxCount.toString(), 50, y);
     }
     }
 } // class WindowElevatorsHandler

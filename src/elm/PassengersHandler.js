@@ -1,7 +1,8 @@
 
 export class PassengersHandler {
-    constructor(parameterHandler){
+    constructor(parameterHandler, passengersGenerator){
         this.parameterHandler = parameterHandler;
+        this.passengersGenerator = passengersGenerator;
 
         this.passengerByFloors = [];
     }
@@ -14,6 +15,16 @@ export class PassengersHandler {
             for (let i = 0; i < this.parameterHandler.elevatorCount - this.passengerByFloors.length; i++)
                 this.passengerByFloors.push(0);
         }
+
+        const newPassengers = this.passengersGenerator.generatePassengersIfNeeded();
+        if (newPassengers){
+            for (let pax of newPassengers)
+                this.passengerByFloors[pax.floor] += pax.count;
+        }
     }
 
-}
+    getPassengersCount(floorIdx){
+        return this.passengerByFloors[floorIdx];
+    }
+
+} // class PassengersHandler
