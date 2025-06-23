@@ -7,6 +7,7 @@ export class WindowParameterSectionHandler {
     initialize(){
         this.addElevatorParameterSection();
         this.addFloorsParameterSection();
+        this.addPassengersParameterSection();
     } // initialize
 
     addAccordionSection(title) {
@@ -152,4 +153,7 @@ export class WindowParameterSectionHandler {
         });
     } // addFloorsParameterSection()
 
+    addPassengersParameterSection(){
+        let panel = this.addAccordionSection('Passengers');
+    }
 }; // class WindowParameterSectionHandler
