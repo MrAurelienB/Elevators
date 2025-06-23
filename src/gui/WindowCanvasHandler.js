@@ -1,14 +1,14 @@
 import {WindowElevatorsHandler} from './WindowElevatorsHandler.js';
 
 export class WindowCanvasHandler {
-    constructor(canvas, ctx, parameterHandler, elevatorsHandler){
+    constructor(canvas, ctx, parameterHandler, elevatorsHandler, passengersHandler){
         this.canvas = canvas;
         this.ctx = ctx;
 
         this.mouseX = canvas.width / 2;
         this.mouseY = canvas.height / 2;
 
-        this.windowElevatorsHandler = new WindowElevatorsHandler(parameterHandler, elevatorsHandler);
+        this.windowElevatorsHandler = new WindowElevatorsHandler(parameterHandler, elevatorsHandler, passengersHandler);
 
         this.initialize();
     }

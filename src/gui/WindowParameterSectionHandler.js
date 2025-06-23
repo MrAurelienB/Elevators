@@ -122,7 +122,6 @@ export class WindowParameterSectionHandler {
                                                             this.parameterHandler.elevatorSpeed);
 
         elevatorSpeedInput.addEventListener('input', () => {
-            console.log('change elevator speed', +elevatorSpeedInput.value)
             this.parameterHandler.elevatorSpeed = +elevatorSpeedInput.value;
         });
 

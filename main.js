@@ -3,7 +3,8 @@ import {WindowBaseHandler} from './src/gui/gui.js';
 
 const componentFactory = new ComponentFactory();
 const windowBaseHandler = new WindowBaseHandler(componentFactory.parameterHandler,
-                                                componentFactory.elevatorsHandler);
+                                                componentFactory.elevatorsHandler,
+                                                componentFactory.passengersHandler);
 window.windowBaseHandler = windowBaseHandler;
 
 /**

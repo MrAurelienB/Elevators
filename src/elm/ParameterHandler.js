@@ -31,6 +31,9 @@ export class ParameterHandler {
         this.idleTimes[ELEVATOR_STATE.DOOR_OPENING] = 50;
         this.idleTimes[ELEVATOR_STATE.DOOR_CLOSING] = 50;
         this.idleTimes[ELEVATOR_STATE.WAITING] = 50; // TODO temporaire le temps que l'on gere le loading/unloading
+
+        // PASSENGERS
+        // this.passengerFlowFactor = 1; // pax per tick
     }
 
     getElevatorSpeed(){

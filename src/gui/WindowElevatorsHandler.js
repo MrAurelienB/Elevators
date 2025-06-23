@@ -1,9 +1,10 @@
 import {ElevatorImage} from './ElevatorImage.js';
 
 export class WindowElevatorsHandler {
-    constructor(parameterHandler, elevatorsHandler){
+    constructor(parameterHandler, elevatorsHandler, passengersHandler){
         this.parameterHandler = parameterHandler;
         this.elevatorsHandler = elevatorsHandler;
+        this.passengersHandler = passengersHandler;
 
         this.elevatorImage = new ElevatorImage('./resources/images/elevator_doors_3.jpg');
     }
@@ -43,7 +44,9 @@ export class WindowElevatorsHandler {
         const elevatorBorderWidth = 1;
 
         this.elevatorsHandler.update();
+        this.passengersHandler.update();
         for (let elevatorIdx = 0; elevatorIdx < this.elevatorsHandler.elevators.length; elevatorIdx++){
+
             const elevator = this.elevatorsHandler.elevators[elevatorIdx];
 
             const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
@@ -53,7 +56,6 @@ export class WindowElevatorsHandler {
             //ctx.strokeRect(elevatorX + elevatorBorderWidth, elevatorY + elevatorBorderWidth, elevatorWidth - 2 * elevatorBorderWidth, elevatorH - 2 * elevatorBorderWidth);
 
             // first show the elevator destination (with a red dot for now)
-            console.log(this.parameterHandler.showElevatorDestination);
             if (this.parameterHandler.showElevatorDestination){
                 const dest_y = canvas.height - floorHeight * this.parameterHandler.getFloorIdx(elevator.destination_floor) - 0.5 * floorHeight;
 
@@ -77,5 +79,13 @@ export class WindowElevatorsHandler {
             const IsMoreThanHalfIdle = elevator.current_idle_time_remaining < 0.5 * this.parameterHandler.getIdleTime(elevator.currentState());
             this.elevatorImage.draw(ctx, elevatorX, elevatorY, elevatorWidth, elevatorH, elevator.currentState(), IsMoreThanHalfIdle);
         }
+
+    for (let floor = this.parameterHandler.minLowestFloor; floor <= this.parameterHandler.maxHighestFloor; floor++){
+        // print the number of passengers waiting
+        ctx.font = "15px Arial";
+        ctx.fillStyle = 'black';
+        const y = canvas.height - floorHeight * this.parameterHandler.getFloorIdx(floor) - 0.5 * floorHeight + 1;
+        ctx.fillText('0', 50, y);
+    }
     }
 } // class WindowElevatorsHandler
