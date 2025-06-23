@@ -14,9 +14,14 @@ export class PassengersGenerator {
 
         for (let i = 0; i < passengerCount; i++){
             const originFloor = this.getRandomInt(this.parameterHandler.minLowestFloor, this.parameterHandler.maxHighestFloor);
+
+            let destinationFloor = null;
+            while (destinationFloor === null || destinationFloor === originFloor)
+                destinationFloor = this.getRandomInt(this.parameterHandler.minLowestFloor, this.parameterHandler.maxHighestFloor);
+
             newPassengers.push({
-                floor: this.parameterHandler.getFloorIdx(originFloor),
-                count: 1
+                originFloor: this.parameterHandler.getFloorIdx(originFloor),
+                destinationFloor: destinationFloor
             });
         }
 

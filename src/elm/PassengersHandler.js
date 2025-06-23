@@ -13,18 +13,20 @@ export class PassengersHandler {
            this.passengerByFloors.splice(this.parameterHandler.elevatorCount);
         else if (this.passengerByFloors.length < this.parameterHandler.elevatorCount){
             for (let i = 0; i < this.parameterHandler.elevatorCount - this.passengerByFloors.length; i++)
-                this.passengerByFloors.push(0);
+                this.passengerByFloors.push([]);
         }
 
         const newPassengers = this.passengersGenerator.generatePassengersIfNeeded();
         if (newPassengers){
             for (let pax of newPassengers)
-                this.passengerByFloors[pax.floor] += pax.count;
+                this.passengerByFloors[pax.originFloor].push(pax);
         }
     }
 
     getPassengersCount(floorIdx){
-        return this.passengerByFloors[floorIdx];
+        if (floorIdx < 0 || floorIdx >= this.passengerByFloors.length)
+            return 0;
+        return this.passengerByFloors[floorIdx].length;
     }
 
 } // class PassengersHandler
