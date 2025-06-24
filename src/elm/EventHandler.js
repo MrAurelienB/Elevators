@@ -73,7 +73,7 @@ export class EventHandler {
             }
         } else if (state == ELEVATOR_STATE.LOADING){
             if (elevator.current_idle_time_remaining === 0){
-                this.componentFactory.passengersHandler.loadPassengers(elevator);
+                this.onLoadPassengers(elevator);
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSING);
             }
         } else if (state == ELEVATOR_STATE.DOOR_CLOSING){
@@ -103,9 +103,18 @@ export class EventHandler {
         }
     }
 
+    onLoadPassengers(elevator){
+        const passengersLoaded = this.componentFactory.passengersHandler.loadPassengers(elevator);
+        if (passengersLoaded.length > 0){
+            const floorIdxToGo = passengersLoaded.map(pax => pax.destinationFloorIdx);
+            const uniqueFloorIdxToGo = [...new Set(floorIdxToGo)];
+            for (let floorIdx of uniqueFloorIdxToGo)
+                elevator.setNextDestinationFloor(this.componentFactory.parameterHandler.getFloorFromIdx(floorIdx));
+        }
+    }
+
     onUnloadPassengers(elevator){
         const paxCount = this.componentFactory.passengersHandler.unloadPassengers(elevator);
         this.componentFactory.statsHandler.onPassengerUnloaded(paxCount);
-        
     }
 }; // class EventHandler

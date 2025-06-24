@@ -47,6 +47,10 @@ export class ParameterHandler {
         return this.elevatorSpeed * this.elevatorSpeedFactor;
     }
 
+    getFloorFromIdx(floorIdx){
+        return floorIdx + this.lowestFloor;
+    }
+
     getFloorIdx(floor){
         return floor - this.lowestFloor;
     } // getFloorIdx

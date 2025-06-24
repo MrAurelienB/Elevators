@@ -74,6 +74,8 @@ export class PassengersHandler {
                 return pax.uidx !== passenger.uidx;
             });
         }
+
+        return paxList;
     }
 
     passengersToUnload(elevator){
