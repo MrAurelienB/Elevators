@@ -2,7 +2,7 @@ import {WindowCanvasHandler} from './WindowCanvasHandler.js';
 import {WindowParameterSectionHandler} from './WindowParameterSectionHandler.js';
 
 export class WindowBaseHandler {
-    constructor(parameterHandler, elevatorsHandler, passengersHandler){
+    constructor(componentFactory){
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -10,14 +10,14 @@ export class WindowBaseHandler {
         canvas.height = window.innerHeight;
 
         // Window handlers
-        this.canvasHandler = new WindowCanvasHandler(canvas, ctx, parameterHandler, elevatorsHandler, passengersHandler);
-        this.windowParameterSectionHandler = new WindowParameterSectionHandler(parameterHandler);
+        this.canvasHandler = new WindowCanvasHandler(canvas, ctx, componentFactory);
+        this.windowParameterSectionHandler = new WindowParameterSectionHandler(componentFactory);
 
         this.initialize();
     }
 
     initialize(){
         this.windowParameterSectionHandler.initialize();
-        this.canvasHandler.draw();
+        this.canvasHandler.updateAndDraw();
     } // initialize
 } // class WindowBaseHandler

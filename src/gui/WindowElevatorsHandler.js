@@ -1,28 +1,34 @@
 import {ElevatorImage} from './ElevatorImage.js';
 
 export class WindowElevatorsHandler {
-    constructor(parameterHandler, elevatorsHandler, passengersHandler){
-        this.parameterHandler = parameterHandler;
-        this.elevatorsHandler = elevatorsHandler;
-        this.passengersHandler = passengersHandler;
+    constructor(componentFactory){
+        this.componentFactory = componentFactory;
 
         this.elevatorImage = new ElevatorImage('./resources/images/elevator_doors_3.jpg');
     }
 
     initialize(){
+        // nothing to do for now
+    }
 
+    updateAndDraw(canvas, ctx){
+        this.update();
+        this.draw(canvas, ctx);
+    }
+
+    update(){
+        this.componentFactory.eventHandler.update();
     }
 
     draw(canvas, ctx){
 
-        // draw floors
-
+        // 1 - draw floors
         const floorHeight = 45;
         const interFloorSpace = 2; // apply to each floor
         const floorSideSpace = 100;
 
         let floorCount = 0;
-        for (let floor = this.parameterHandler.lowestFloor; floor <= this.parameterHandler.highestFloor; floor++){
+        for (let floor = this.componentFactory.parameterHandler.lowestFloor; floor <= this.componentFactory.parameterHandler.highestFloor; floor++){
             if (floor === 0)
                 ctx.fillStyle = 'rgb(0 128 255)'; // blue
             else if (floor < 0)
@@ -37,27 +43,22 @@ export class WindowElevatorsHandler {
             floorCount += 1;
         }
 
-        // draw elevators
-
+        // 2 - draw elevators
         const interElevatorSpace = 10;
         const elevatorWidth = 50;
         const elevatorBorderWidth = 1;
 
-        this.elevatorsHandler.update();
-        this.passengersHandler.update();
-        for (let elevatorIdx = 0; elevatorIdx < this.elevatorsHandler.elevators.length; elevatorIdx++){
+        for (let elevatorIdx = 0; elevatorIdx < this.componentFactory.elevatorsHandler.elevators.length; elevatorIdx++){
 
-            const elevator = this.elevatorsHandler.elevators[elevatorIdx];
+            const elevator = this.componentFactory.elevatorsHandler.elevators[elevatorIdx];
 
             const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
             const elevatorY = canvas.height - floorHeight * (elevator.floor_position / 100 + 1) + interFloorSpace;
             const elevatorH = floorHeight - 2 * interFloorSpace;
-            //ctx.fillRect(elevatorX, elevatorY, elevatorWidth, elevatorH);
-            //ctx.strokeRect(elevatorX + elevatorBorderWidth, elevatorY + elevatorBorderWidth, elevatorWidth - 2 * elevatorBorderWidth, elevatorH - 2 * elevatorBorderWidth);
 
             // first show the elevator destination (with a red dot for now)
-            if (this.parameterHandler.showElevatorDestination){
-                const dest_y = canvas.height - floorHeight * this.parameterHandler.getFloorIdx(elevator.destination_floor) - 0.5 * floorHeight;
+            if (this.componentFactory.parameterHandler.showElevatorDestination){
+                const dest_y = canvas.height - floorHeight * this.componentFactory.parameterHandler.getFloorIdx(elevator.destination_floor) - 0.5 * floorHeight;
 
                 ctx.fillStyle = 'red';
                 ctx.strokeStyle = 'red';
@@ -76,21 +77,23 @@ export class WindowElevatorsHandler {
             ctx.strokeStyle = 'rgb(102 0 204)';
             ctx.lineWidth = elevatorBorderWidth;
 
-            const IsMoreThanHalfIdle = elevator.current_idle_time_remaining < 0.5 * this.parameterHandler.getIdleTime(elevator.currentState());
+            const IsMoreThanHalfIdle = elevator.current_idle_time_remaining < 0.5 * this.componentFactory.parameterHandler.getIdleTime(elevator.currentState());
             this.elevatorImage.draw(ctx, elevatorX, elevatorY, elevatorWidth, elevatorH, elevator.currentState(), IsMoreThanHalfIdle);
         }
 
-    for (let floor = this.parameterHandler.minLowestFloor; floor <= this.parameterHandler.maxHighestFloor; floor++){
-        // print the number of passengers waiting
-        ctx.font = "15px Arial";
-        ctx.fillStyle = 'black';
+        // 3 - draw passengers
+        for (let floor = this.componentFactory.parameterHandler.minLowestFloor; floor <= this.componentFactory.parameterHandler.maxHighestFloor; floor++){
+            // print the number of passengers waiting
+            ctx.font = "15px Arial";
+            ctx.fillStyle = 'black';
 
-        const floorIdx = this.parameterHandler.getFloorIdx(floor);
-        const y = canvas.height - floorHeight * floorIdx - 0.5 * floorHeight + 1;
-        const paxCount = this.passengersHandler.getPassengersCount(floorIdx);
+            const floorIdx = this.componentFactory.parameterHandler.getFloorIdx(floor);
+            const y = canvas.height - floorHeight * floorIdx - 0.5 * floorHeight + 1;
+            const paxCount = this.componentFactory.passengersHandler.getPassengersCount(floorIdx);
 
-        if (paxCount !== null && paxCount !== undefined)
-            ctx.fillText(paxCount.toString(), 50, y);
-    }
-    }
+            if (paxCount !== null && paxCount !== undefined)
+                ctx.fillText(paxCount.toString(), 50, y);
+        }
+    } // updateAndDraw()
+
 } // class WindowElevatorsHandler

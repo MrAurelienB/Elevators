@@ -1,15 +1,20 @@
 import {ELEVATOR_DIRECTION, ELEVATOR_STATE} from './Enums.js';
 
 export class EventHandler {
-    constructor(parameterHandler){
-        this.parameterHandler = parameterHandler;
+    constructor(componentFactory){
+        this.componentFactory = componentFactory;
+    }
+
+    update(){
+        this.componentFactory.elevatorsHandler.update();
+        this.componentFactory.passengersHandler.update();
     }
 
     // basically to give orders to elevators
     onUpdateBefore(elevator){
         // random: 0.5% chance that a call is made.
         if (Math.random() < 0.005){ // TODO: it should be done by the generation of passengers...
-            const nextFloor = this.parameterHandler.getRandomFloor();
+            const nextFloor = this.componentFactory.parameterHandler.getRandomFloor();
             elevator.setNextDestinationFloor(nextFloor);
         }
 
@@ -27,7 +32,7 @@ export class EventHandler {
     onUpdate(elevator){
         const state = elevator.currentState();
         if (state == ELEVATOR_STATE.MOVING){
-            elevator.floor_position += this.parameterHandler.getElevatorSpeed() * elevator.directionSpeed();
+            elevator.floor_position += this.componentFactory.parameterHandler.getElevatorSpeed() * elevator.directionSpeed();
         } else if (state == ELEVATOR_STATE.LOADING){
             elevator.current_idle_time_remaining -= 1;
         } else if (state == ELEVATOR_STATE.UNLOADING){
@@ -81,7 +86,7 @@ export class EventHandler {
             }
         } else if (state == ELEVATOR_STATE.MOVING){
             if (elevator.hasReachedDestFloor()){
-                elevator.floor_position = this.parameterHandler.getPositionFromFloor(elevator.destination_floor);
+                elevator.floor_position = this.componentFactory.parameterHandler.getPositionFromFloor(elevator.destination_floor);
                 elevator.current_floor = elevator.destination_floor;
                 if (elevator.next_destination_floors.length > 0)
                     elevator.destination_floor = elevator.next_destination_floors.shift();

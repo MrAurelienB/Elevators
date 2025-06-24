@@ -1,14 +1,14 @@
 import {WindowElevatorsHandler} from './WindowElevatorsHandler.js';
 
 export class WindowCanvasHandler {
-    constructor(canvas, ctx, parameterHandler, elevatorsHandler, passengersHandler){
+    constructor(canvas, ctx, componentFactory){
         this.canvas = canvas;
         this.ctx = ctx;
 
         this.mouseX = canvas.width / 2;
         this.mouseY = canvas.height / 2;
 
-        this.windowElevatorsHandler = new WindowElevatorsHandler(parameterHandler, elevatorsHandler, passengersHandler);
+        this.windowElevatorsHandler = new WindowElevatorsHandler(componentFactory);
 
         this.initialize();
     }
@@ -22,33 +22,20 @@ export class WindowCanvasHandler {
         this.windowElevatorsHandler.initialize();
     } // initialize()
 
-    draw(){
+    updateAndDraw(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
         // draw canvas border
         this.ctx.lineWidth = 1; // Border thickness
         this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height); // Draw border around edges
 
-        /*
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(500, 500, 100, 100);
+        this.windowElevatorsHandler.updateAndDraw(this.canvas, this.ctx);
 
-        this.ctx.fillStyle = "red";
-        this.ctx.beginPath();
-        this.ctx.arc(this.mouseX, this.mouseY, 20, 0, Math.PI * 2);
-        this.ctx.fill();
-
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(100, 100, 100, 100);
-        */
-
-        this.windowElevatorsHandler.draw(this.canvas, this.ctx);
-
-        requestAnimationFrame(() => this.draw());
-    } // draw()
+        requestAnimationFrame(() => this.updateAndDraw());
+    } // updateAndDraw()
 
     onMouseClick(e){
-
+        // nothing for now
     } // onMouseClick()
 
     onMouseMove(e){

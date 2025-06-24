@@ -13,7 +13,8 @@ export class ComponentFactory {
         this.passengersGenerator = new PassengersGenerator(this.parameterHandler);
         this.passengersHandler = new PassengersHandler(this.parameterHandler, this.passengersGenerator);
         
-        this.eventHandler = new EventHandler(this.parameterHandler);
-        this.elevatorsHandler = new ElevatorsHandler(this.parameterHandler, this.eventHandler, this.passengersHandler);
+        this.elevatorsHandler = new ElevatorsHandler(this);
+        
+        this.eventHandler = new EventHandler(this);
     }
 }; // class ComponentFactory

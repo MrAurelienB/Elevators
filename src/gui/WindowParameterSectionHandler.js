@@ -1,7 +1,7 @@
 
 export class WindowParameterSectionHandler {
-    constructor(parameterHandler){
-        this.parameterHandler = parameterHandler;
+    constructor(componentFactory){
+        this.componentFactory = componentFactory;
     }
 
     initialize(){
@@ -108,27 +108,27 @@ export class WindowParameterSectionHandler {
         let panel = this.addAccordionSection('Elevators');
 
         let elevatorCountInput = this.addIntInputFieldParam(panel, 'Elevator Count',
-                                                            this.parameterHandler.minElevatorCount,
-                                                            this.parameterHandler.maxElevatorCount,
-                                                            this.parameterHandler.elevatorCount);
+                                                            this.componentFactory.parameterHandler.minElevatorCount,
+                                                            this.componentFactory.parameterHandler.maxElevatorCount,
+                                                            this.componentFactory.parameterHandler.elevatorCount);
 
         elevatorCountInput.addEventListener('input', () => {
-            this.parameterHandler.elevatorCount = +elevatorCountInput.value;
+            this.componentFactory.parameterHandler.elevatorCount = +elevatorCountInput.value;
         });
 
         let elevatorSpeedInput = this.addIntInputFieldParam(panel, 'Elevator Speed',
-                                                            this.parameterHandler.minElevatorSpeed,
-                                                            this.parameterHandler.maxElevatorSpeed,
-                                                            this.parameterHandler.elevatorSpeed);
+                                                            this.componentFactory.parameterHandler.minElevatorSpeed,
+                                                            this.componentFactory.parameterHandler.maxElevatorSpeed,
+                                                            this.componentFactory.parameterHandler.elevatorSpeed);
 
         elevatorSpeedInput.addEventListener('input', () => {
-            this.parameterHandler.elevatorSpeed = +elevatorSpeedInput.value;
+            this.componentFactory.parameterHandler.elevatorSpeed = +elevatorSpeedInput.value;
         });
 
         let showElevatorDestinationCheckBox = this.addCheckBox(panel, 'Passenger know elevator direction',
-                                                               this.parameterHandler.showElevatorDestination);
+                                                               this.componentFactory.parameterHandler.showElevatorDestination);
         showElevatorDestinationCheckBox.addEventListener("change", () => {
-            this.parameterHandler.showElevatorDestination = showElevatorDestinationCheckBox.checked;
+            this.componentFactory.parameterHandler.showElevatorDestination = showElevatorDestinationCheckBox.checked;
         });
     } // addElevatorParameterSection()
 
@@ -136,19 +136,19 @@ export class WindowParameterSectionHandler {
         let panel = this.addAccordionSection('Floors');
 
         let highestFloorInput = this.addIntInputFieldParam(panel, 'Highest Floor',
-                                                           this.parameterHandler.minHighestFloor,
-                                                           this.parameterHandler.maxHighestFloor,
-                                                           this.parameterHandler.highestFloor);
+                                                           this.componentFactory.parameterHandler.minHighestFloor,
+                                                           this.componentFactory.parameterHandler.maxHighestFloor,
+                                                           this.componentFactory.parameterHandler.highestFloor);
         highestFloorInput.addEventListener('input', () => {
-            this.parameterHandler.highestFloor = +highestFloorInput.value;
+            this.componentFactory.parameterHandler.highestFloor = +highestFloorInput.value;
         });
 
         let lowestFloorInput = this.addIntInputFieldParam(panel, 'Lowest Floor',
-                                                          this.parameterHandler.minLowestFloor,
-                                                          this.parameterHandler.maxLowestFloor,
-                                                          this.parameterHandler.lowestFloor);
+                                                          this.componentFactory.parameterHandler.minLowestFloor,
+                                                          this.componentFactory.parameterHandler.maxLowestFloor,
+                                                          this.componentFactory.parameterHandler.lowestFloor);
         lowestFloorInput.addEventListener('input', () => {
-            this.parameterHandler.lowestFloor = +lowestFloorInput.value;
+            this.componentFactory.parameterHandler.lowestFloor = +lowestFloorInput.value;
         });
     } // addFloorsParameterSection()
 
