@@ -54,26 +54,26 @@ export class EventHandler {
     }
 
     // basically to update state
-    onUpdateAfter(elevator, passengersHandler){
+    onUpdateAfter(elevator){
         const state = elevator.currentState();
         if (state == ELEVATOR_STATE.DOOR_OPENING){
             if (elevator.current_idle_time_remaining === 0)
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENED);
         } else if (state == ELEVATOR_STATE.DOOR_OPENED){
             if (elevator.current_idle_time_remaining === 0){
-                const paxUnloadCount = passengersHandler.passengerToUnloadCount(elevator);
+                const paxUnloadCount = this.componentFactory.passengersHandler.passengerToUnloadCount(elevator);
                 elevator.setCurrentState(ELEVATOR_STATE.UNLOADING, paxUnloadCount);
             }
         } else if (state == ELEVATOR_STATE.UNLOADING){
             if (elevator.current_idle_time_remaining === 0){
-                passengersHandler.unloadPassengers(elevator);
+                this.onUnloadPassengers(elevator);
 
-                const paxLoadCount = passengersHandler.passengerToLoadCount(elevator);
+                const paxLoadCount = this.componentFactory.passengersHandler.passengerToLoadCount(elevator);
                 elevator.setCurrentState(ELEVATOR_STATE.LOADING, paxLoadCount);
             }
         } else if (state == ELEVATOR_STATE.LOADING){
             if (elevator.current_idle_time_remaining === 0){
-                passengersHandler.loadPassengers(elevator);
+                this.componentFactory.passengersHandler.loadPassengers(elevator);
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSING);
             }
         } else if (state == ELEVATOR_STATE.DOOR_CLOSING){
@@ -81,11 +81,13 @@ export class EventHandler {
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSED);
         } else if (state == ELEVATOR_STATE.DOOR_CLOSED){
             if (elevator.current_idle_time_remaining === 0){
-                const mustMove = passengersHandler.hasPassengers(elevator) || elevator.destination_floor !== elevator.current_floor;
+                const mustMove = this.componentFactory.passengersHandler.hasPassengers(elevator) || elevator.destination_floor !== elevator.current_floor;
                 elevator.setCurrentState(mustMove ? ELEVATOR_STATE.MOVING : ELEVATOR_STATE.WAITING);
             }
         } else if (state == ELEVATOR_STATE.MOVING){
             if (elevator.hasReachedDestFloor()){
+                this.componentFactory.statsHandler.onElevatorReachedDestination(elevator);
+
                 elevator.floor_position = this.componentFactory.parameterHandler.getPositionFromFloor(elevator.destination_floor);
                 elevator.current_floor = elevator.destination_floor;
                 if (elevator.next_destination_floors.length > 0)
@@ -99,5 +101,11 @@ export class EventHandler {
             const msg = `Error occured in onUpdateAfter() ${state}`;
             alert(msg, state);
         }
+    }
+
+    onUnloadPassengers(elevator){
+        const paxCount = this.componentFactory.passengersHandler.unloadPassengers(elevator);
+        this.componentFactory.statsHandler.onPassengerUnloaded(paxCount);
+        
     }
 }; // class EventHandler

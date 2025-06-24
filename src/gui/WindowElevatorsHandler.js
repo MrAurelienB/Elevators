@@ -70,7 +70,7 @@ export class WindowElevatorsHandler {
             this.elevatorImage.draw(ctx, elevatorX, elevatorY, elevatorWidth, elevatorH, elevator.currentState(), IsMoreThanHalfIdle);
 
             this.drawElevatorSeparator(elevatorX + elevatorWidth + 0.5 * interElevatorSpace,
-                                       canvas.height - this.componentFactory.elevatorsHandler.elevators.length * floorHeight,
+                                       canvas.height - this.componentFactory.parameterHandler.getFloorCount() * floorHeight,
                                        canvas.height,
                                        ctx);
         }

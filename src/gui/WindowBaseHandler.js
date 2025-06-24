@@ -1,5 +1,6 @@
 import {WindowCanvasHandler} from './WindowCanvasHandler.js';
 import {WindowParameterSectionHandler} from './WindowParameterSectionHandler.js';
+import {WindowStatSectionHandler} from './WindowStatSectionHandler.js';
 
 export class WindowBaseHandler {
     constructor(componentFactory){
@@ -12,12 +13,16 @@ export class WindowBaseHandler {
         // Window handlers
         this.canvasHandler = new WindowCanvasHandler(canvas, ctx, componentFactory);
         this.windowParameterSectionHandler = new WindowParameterSectionHandler(componentFactory);
+        this.windowStatSectionHandler = new WindowStatSectionHandler(componentFactory);
 
         this.initialize();
     }
 
     initialize(){
         this.windowParameterSectionHandler.initialize();
+        this.windowStatSectionHandler.initialize();
+
         this.canvasHandler.updateAndDraw();
+        this.windowStatSectionHandler.update();
     } // initialize
 } // class WindowBaseHandler

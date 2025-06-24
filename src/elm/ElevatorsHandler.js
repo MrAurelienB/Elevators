@@ -22,7 +22,7 @@ export class ElevatorsHandler {
         for (let elevator of this.elevators)
             this.componentFactory.eventHandler.onUpdate(elevator);
         for (let elevator of this.elevators)
-            this.componentFactory.eventHandler.onUpdateAfter(elevator, this.componentFactory.passengersHandler);
+            this.componentFactory.eventHandler.onUpdateAfter(elevator);
     }
 
     goToFloor(elevatorIdx, floorIdx){

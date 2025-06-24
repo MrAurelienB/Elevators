@@ -3,11 +3,14 @@ import {ElevatorsHandler} from './ElevatorsHandler.js';
 import {EventHandler} from './EventHandler.js';
 import {ParameterHandler} from './ParameterHandler.js';
 import {PassengersGenerator, PassengersHandler} from '../pax/pax.js';
+import {StatsHandler} from './StatsHandler.js';
 import {DEBUG_MODE} from './Constants.js';
 
 export class ComponentFactory {
     constructor(){
         this.parameterHandler = DEBUG_MODE ? new DebugParameterHandler() : new ParameterHandler();
+
+        this.statsHandler = new StatsHandler();
 
         this.passengersGenerator = new PassengersGenerator(this.parameterHandler);
         this.passengersHandler = new PassengersHandler(this);

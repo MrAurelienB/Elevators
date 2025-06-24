@@ -125,7 +125,7 @@ export class PassengersHandler {
         const paxList = this.passengersToUnload(elevator);
 
         if (elevator.uidx < 0 || elevator.uidx >= this.passengerByElevators.length)
-            return;
+            return 0;
 
         // TODO: faire en un seul filtre
         for (let passenger of paxList){
@@ -133,6 +133,8 @@ export class PassengersHandler {
                 return pax.uidx !== passenger.uidx;
             });
         }
+
+        return paxList.length;
     }
 
 } // class PassengersHandler
