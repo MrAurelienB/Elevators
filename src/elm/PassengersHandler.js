@@ -43,6 +43,12 @@ export class PassengersHandler {
         return this.passengerWaitingByFloors[floorIdx].length;
     }
 
+    hasPassengers(elevator){
+        if (elevator.uidx < 0 || elevator.uidx >= this.passengerByElevators.length)
+            return false;
+        return this.passengerByElevators[elevator.uidx].length > 0;
+    }
+
     mustPassengerBoardElevator(passenger, elevator){
         return true; // by default, always
     }

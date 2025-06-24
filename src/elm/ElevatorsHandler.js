@@ -2,9 +2,10 @@
 import {Elevator} from './Elevator.js';
 
 export class ElevatorsHandler {
-    constructor(parameterHandler, elevatorsEventHandler){
+    constructor(parameterHandler, elevatorsEventHandler, passengersHandler){
         this.parameterHandler = parameterHandler;
         this.elevatorsEventHandler = elevatorsEventHandler;
+        this.passengersHandler = passengersHandler;
 
         this.elevators = [];
     }
@@ -23,7 +24,7 @@ export class ElevatorsHandler {
         for (let elevator of this.elevators)
             this.elevatorsEventHandler.onUpdate(elevator);
         for (let elevator of this.elevators)
-            this.elevatorsEventHandler.onUpdateAfter(elevator);
+            this.elevatorsEventHandler.onUpdateAfter(elevator, this.passengersHandler);
     }
 
     goToFloor(elevatorIdx, floorIdx){

@@ -28,6 +28,7 @@ export class Elevator {
         // moving information
         this.destination_floor = this.initial_floor; // not an index
         this.floor_position = this.parameterHandler.getPositionFromFloor(this.current_floor);
+        this.next_destination_floors = [];
     }
 
     currentState(){
@@ -57,10 +58,16 @@ export class Elevator {
     }
 
     setCurrentState(state){
-        console.log(state)
         this.current_state = state;
         if (state == ELEVATOR_STATE.MOVING)
             this.current_direction = this.current_floor > this.destination_floor ? ELEVATOR_DIRECTION.DOWN : ELEVATOR_DIRECTION.UP;
         this.current_idle_time_remaining = this.parameterHandler.getIdleTime(state);
+    }
+
+    setNextDestinationFloor(floor){
+        if (this.next_destination_floors.length > 0 && this.next_destination_floors[this.next_destination_floors.length - 1] === floor)
+            return;
+
+        this.next_destination_floors.push(floor);
     }
 }; // class Elevator

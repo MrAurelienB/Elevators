@@ -8,22 +8,22 @@ export class ElevatorImage {
 
         const imgX = 168; // 20 // 313
         this.rects = [
-            {x:imgX, y:0, w:95, h:90},
-            {x:imgX, y:98, w:95, h:90},
-            {x:imgX, y:196, w:95, h:90},
-            {x:imgX, y:294, w:95, h:90}
+            {x:imgX, y:0, w:95, h:90}, // closed
+            {x:imgX, y:98, w:95, h:90}, // open 30%
+            {x:imgX, y:196, w:95, h:90}, // open 60%
+            {x:imgX, y:294, w:95, h:90} // open 100%
         ]
     }
 
     draw(ctx, x, y, w, h, state, moreThanHalf){
         const rect = (() => {
-            if (state == ELEVATOR_STATE.DOOR_CLOSED || state == ELEVATOR_STATE.MOVING || state == ELEVATOR_STATE.WAITING)
+            if (state === ELEVATOR_STATE.DOOR_CLOSED || state === ELEVATOR_STATE.MOVING || state === ELEVATOR_STATE.WAITING)
                 return this.rects[0];
-            if (state == ELEVATOR_STATE.DOOR_OPENED)
+            if (state === ELEVATOR_STATE.DOOR_OPENED || state === ELEVATOR_STATE.UNLOADING || state === ELEVATOR_STATE.LOADING)
                 return this.rects[3];
-            if (state == ELEVATOR_STATE.DOOR_CLOSING)
+            if (state === ELEVATOR_STATE.DOOR_CLOSING)
                 return moreThanHalf ? this.rects[1] : this.rects[2];
-            if (state == ELEVATOR_STATE.DOOR_OPENING)
+            if (state === ELEVATOR_STATE.DOOR_OPENING)
                 return moreThanHalf ? this.rects[2] : this.rects[1];
             return this.rects[0];
         })();

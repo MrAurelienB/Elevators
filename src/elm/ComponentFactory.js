@@ -10,10 +10,10 @@ export class ComponentFactory {
     constructor(){
         this.parameterHandler = DEBUG_MODE ? new DebugParameterHandler() : new ParameterHandler();
 
-        this.elevatorsEventHandler = new ElevatorsEventHandler(this.parameterHandler);
-        this.elevatorsHandler = new ElevatorsHandler(this.parameterHandler, this.elevatorsEventHandler);
-
         this.passengersGenerator = new PassengersGenerator(this.parameterHandler);
         this.passengersHandler = new PassengersHandler(this.parameterHandler, this.passengersGenerator);
+        
+        this.elevatorsEventHandler = new ElevatorsEventHandler(this.parameterHandler);
+        this.elevatorsHandler = new ElevatorsHandler(this.parameterHandler, this.elevatorsEventHandler, this.passengersHandler);
     }
 }; // class ComponentFactory

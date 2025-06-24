@@ -5,22 +5,22 @@ export class ElevatorsEventHandler {
         this.parameterHandler = parameterHandler;
     }
 
-    goToFloor(elevator, floor){
-        elevator.destination_floor = floor;
-        if (elevator.destination_floor != elevator.current_floor){
-            elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENING);
-        }
-    }
-
     // basically to give orders to elevators
     onUpdateBefore(elevator){
-        // random: 50% that a call is made. FOR NOW, the call is not registered
-        if (Math.random() < 0.5){
+        // random: 0.5% chance that a call is made.
+        if (Math.random() < 0.005){ // TODO: it should be done by the generation of passengers...
             const nextFloor = this.parameterHandler.getRandomFloor();
-            this.goToFloor(elevator, nextFloor);
+            elevator.setNextDestinationFloor(nextFloor);
         }
-        if (elevator.currentState() === ELEVATOR_STATE.WAITING)
-            this.goToFloor(elevator, this.parameterHandler.getRandomFloor());
+
+        if (elevator.currentState() === ELEVATOR_STATE.WAITING){
+            if (elevator.next_destination_floors.length > 0){
+                elevator.destination_floor = elevator.next_destination_floors.shift();
+
+                const calledFromCurrentFloor = Math.random() < 0.5; // TODO: it should be done by the generation of passengers...
+                elevator.setCurrentState(calledFromCurrentFloor ? ELEVATOR_STATE.DOOR_OPENING : ELEVATOR_STATE.MOVING);
+            }
+        }
     }
 
     // basically to update numbers
@@ -49,16 +49,11 @@ export class ElevatorsEventHandler {
     }
 
     // basically to update state
-    onUpdateAfter(elevator){
+    onUpdateAfter(elevator, passengersHandler){
         const state = elevator.currentState();
-        console.log(state)
-        if (state == ELEVATOR_STATE.MOVING){
-            if (elevator.hasReachedDestFloor()){
-                elevator.floor_position = this.parameterHandler.getPositionFromFloor(elevator.destination_floor);
-                elevator.current_floor = elevator.destination_floor;
-                elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENING);
-            }
-        } else if (state == ELEVATOR_STATE.DOOR_OPENING){
+        if (state == ELEVATOR_STATE.WAITING)
+            console.log('waiting', elevator.next_destination_floors)
+        if (state == ELEVATOR_STATE.DOOR_OPENING){
             if (elevator.current_idle_time_remaining == 0)
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENED);
         } else if (state == ELEVATOR_STATE.DOOR_OPENED){
@@ -80,8 +75,16 @@ export class ElevatorsEventHandler {
             if (elevator.current_idle_time_remaining == 0)
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSED);
         } else if (state == ELEVATOR_STATE.DOOR_CLOSED){
-            if (elevator.current_idle_time_remaining == 0)
-                elevator.setCurrentState(ELEVATOR_STATE.MOVING);
+            if (elevator.current_idle_time_remaining == 0){
+                const mustMove = passengersHandler.hasPassengers(elevator) || elevator.destination_floor !== elevator.current_floor;
+                elevator.setCurrentState(mustMove ? ELEVATOR_STATE.MOVING : ELEVATOR_STATE.WAITING);
+            }
+        } else if (state == ELEVATOR_STATE.MOVING){
+            if (elevator.hasReachedDestFloor()){
+                elevator.floor_position = this.parameterHandler.getPositionFromFloor(elevator.destination_floor);
+                elevator.current_floor = elevator.destination_floor;
+                elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENING);
+            }
         } else if (state == ELEVATOR_STATE.WAITING){
             // nothing to do
         } else {
