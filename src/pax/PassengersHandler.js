@@ -36,16 +36,20 @@ export class PassengersHandler {
         }
     }
 
-    getPassengersCount(floorIdx){
+    getPassengersInElevator(elevator){
+        if (elevator.uidx < 0 || elevator.uidx >= this.passengerByElevators.length)
+            return false;
+        return this.passengerByElevators[elevator.uidx].length;
+    }
+
+    getPassengersWaitingCount(floorIdx){
         if (floorIdx < 0 || floorIdx >= this.passengerWaitingByFloors.length)
             return 0;
         return this.passengerWaitingByFloors[floorIdx].length;
     }
 
     hasPassengers(elevator){
-        if (elevator.uidx < 0 || elevator.uidx >= this.passengerByElevators.length)
-            return false;
-        return this.passengerByElevators[elevator.uidx].length > 0;
+        return this.getPassengersInElevator(elevator) > 0;
     }
 
     mustPassengerBoardElevator(passenger, elevator){

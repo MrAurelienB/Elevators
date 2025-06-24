@@ -46,10 +46,8 @@ export class WindowElevatorsHandler {
         // 2 - draw elevators
         const interElevatorSpace = 10;
         const elevatorWidth = 50;
-        const elevatorBorderWidth = 1;
 
         for (let elevatorIdx = 0; elevatorIdx < this.componentFactory.elevatorsHandler.elevators.length; elevatorIdx++){
-
             const elevator = this.componentFactory.elevatorsHandler.elevators[elevatorIdx];
 
             const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
@@ -66,34 +64,53 @@ export class WindowElevatorsHandler {
                 ctx.beginPath();
                 ctx.arc(elevatorX + 0.5 * elevatorWidth, dest_y, 10, 0, Math.PI * 2); // (x, y, radius, startAngle, endAngle)
                 ctx.fill(); // Fill the circle
-
-                ctx.lineWidth = elevatorBorderWidth;
-                ctx.moveTo(elevatorX + 0.5 * elevatorWidth, elevatorY + 0.5 * floorHeight);
-                ctx.lineTo(elevatorX + 0.5 * elevatorWidth, dest_y);
-                ctx.stroke();
             }
-
-            ctx.fillStyle = 'rgb(255 229 204)';
-            ctx.strokeStyle = 'rgb(102 0 204)';
-            ctx.lineWidth = elevatorBorderWidth;
 
             const IsMoreThanHalfIdle = elevator.current_idle_time_remaining < 0.5 * this.componentFactory.parameterHandler.getIdleTime(elevator.currentState());
             this.elevatorImage.draw(ctx, elevatorX, elevatorY, elevatorWidth, elevatorH, elevator.currentState(), IsMoreThanHalfIdle);
+
+            this.drawElevatorSeparator(elevatorX + elevatorWidth + 0.5 * interElevatorSpace,
+                                       canvas.height - this.componentFactory.elevatorsHandler.elevators.length * floorHeight,
+                                       canvas.height,
+                                       ctx);
         }
 
         // 3 - draw passengers
+        ctx.font = "15px Arial";
+        ctx.fillStyle = 'black';
+
         for (let floor = this.componentFactory.parameterHandler.minLowestFloor; floor <= this.componentFactory.parameterHandler.maxHighestFloor; floor++){
             // print the number of passengers waiting
-            ctx.font = "15px Arial";
-            ctx.fillStyle = 'black';
 
             const floorIdx = this.componentFactory.parameterHandler.getFloorIdx(floor);
             const y = canvas.height - floorHeight * floorIdx - 0.5 * floorHeight + 1;
-            const paxCount = this.componentFactory.passengersHandler.getPassengersCount(floorIdx);
+            const paxCount = this.componentFactory.passengersHandler.getPassengersWaitingCount(floorIdx);
 
             if (paxCount !== null && paxCount !== undefined)
                 ctx.fillText(paxCount.toString(), 50, y);
         }
-    } // updateAndDraw()
+
+        for (let elevatorIdx = 0; elevatorIdx < this.componentFactory.elevatorsHandler.elevators.length; elevatorIdx++){
+            const elevator = this.componentFactory.elevatorsHandler.elevators[elevatorIdx];
+
+            const elevatorX = floorSideSpace + interElevatorSpace * (elevatorIdx + 1) + elevatorWidth * elevatorIdx;
+
+            const paxCount = this.componentFactory.passengersHandler.getPassengersInElevator(elevator);
+            ctx.fillText(paxCount.toString(), elevatorX + 0.5 * elevatorWidth, 15);
+        }
+    } // draw()
+
+    drawVerticalLine(x, y1, y2, ctx){
+        ctx.beginPath();
+        ctx.moveTo(x, y1);
+        ctx.lineTo(x, y2);
+        ctx.stroke();
+    }
+
+    drawElevatorSeparator(x, y1, y2, ctx){
+        ctx.strokeStyle = 'rgb(0 0 0)';
+        ctx.lineWidth = 1;
+        this.drawVerticalLine(x, y1, y2, ctx);
+    }
 
 } // class WindowElevatorsHandler
