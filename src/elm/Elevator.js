@@ -14,7 +14,6 @@ export class Elevator {
         this.initial_floor = 0; // not an index
         this.initial_load = 0;
         this.initial_state = ELEVATOR_STATE.WAITING;
-        this.initial_direction = ELEVATOR_DIRECTION.NONE;
 
         Object.assign(this, overwriteOptions);
 
@@ -22,7 +21,6 @@ export class Elevator {
         this.current_floor = this.initial_floor; // not an index
         this.current_load = this.initial_load;
         this.current_state = this.initial_state;
-        this.current_direction = this.initial_direction;
         this.current_idle_time_remaining = this.parameterHandler.getIdleTime(this.initial_state);
 
         // moving information
@@ -36,32 +34,39 @@ export class Elevator {
     }
 
     directionSpeed(){
-        if (this.current_direction == ELEVATOR_DIRECTION.UP)
+        const direction = this.getDirection();
+        if (direction == ELEVATOR_DIRECTION.UP)
             return 1;
-        if (this.current_direction == ELEVATOR_DIRECTION.DOWN)
+        if (direction == ELEVATOR_DIRECTION.DOWN)
             return -1;
         return 0;
+    }
+
+    getDirection(){
+        if (this.current_floor === this.destination_floor)
+            return ELEVATOR_DIRECTION.NONE;
+        return this.current_floor > this.destination_floor ? ELEVATOR_DIRECTION.DOWN : ELEVATOR_DIRECTION.UP;
     }
 
     hasReachedDestFloor(){
         if (this.current_state != ELEVATOR_STATE.MOVING)
             return true; // loading or waiting
-        if (this.current_direction == ELEVATOR_DIRECTION.NONE)
+
+        const direction = this.getDirection();
+        if (direction == ELEVATOR_DIRECTION.NONE)
             return true;
-        if (this.current_direction == ELEVATOR_DIRECTION.DOWN)
+        if (direction == ELEVATOR_DIRECTION.DOWN)
             return this.floor_position <= this.parameterHandler.getPositionFromFloor(this.destination_floor);
-        if (this.current_direction == ELEVATOR_DIRECTION.UP)
+        if (direction == ELEVATOR_DIRECTION.UP)
             return this.floor_position >= this.parameterHandler.getPositionFromFloor(this.destination_floor);
 
-        const msg = `Error occured in hasReachedDestFloor() ${this.current_direction}`;
+        const msg = `Error occured in hasReachedDestFloor() ${direction}`;
         alert(msg);
     }
 
-    setCurrentState(state){
+    setCurrentState(state, factor = 1){
         this.current_state = state;
-        if (state == ELEVATOR_STATE.MOVING)
-            this.current_direction = this.current_floor > this.destination_floor ? ELEVATOR_DIRECTION.DOWN : ELEVATOR_DIRECTION.UP;
-        this.current_idle_time_remaining = this.parameterHandler.getIdleTime(state);
+        this.current_idle_time_remaining = Math.max(1, factor * this.parameterHandler.getIdleTime(state));
     }
 
     setNextDestinationFloor(floor){

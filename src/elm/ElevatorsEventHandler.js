@@ -51,31 +51,31 @@ export class ElevatorsEventHandler {
     // basically to update state
     onUpdateAfter(elevator, passengersHandler){
         const state = elevator.currentState();
-        if (state == ELEVATOR_STATE.WAITING)
-            console.log('waiting', elevator.next_destination_floors)
         if (state == ELEVATOR_STATE.DOOR_OPENING){
-            if (elevator.current_idle_time_remaining == 0)
+            if (elevator.current_idle_time_remaining === 0)
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENED);
         } else if (state == ELEVATOR_STATE.DOOR_OPENED){
-            if (elevator.current_idle_time_remaining == 0){
-                elevator.setCurrentState(ELEVATOR_STATE.UNLOADING);
-                // TODO: determiner le nombre de passagers qui doivent descendre
-                // TODO: calculer current_idle_time_remaining = (paxCount * idle time)
+            if (elevator.current_idle_time_remaining === 0){
+                const paxUnloadCount = passengersHandler.passengerToUnloadCount(elevator);
+                elevator.setCurrentState(ELEVATOR_STATE.UNLOADING, paxUnloadCount);
             }
         } else if (state == ELEVATOR_STATE.UNLOADING){
-            if (elevator.current_idle_time_remaining == 0){
-                elevator.setCurrentState(ELEVATOR_STATE.LOADING);
-                // TODO: determiner le nombre de passagers qui doivent monter dans l'elevator
-                // TODO: calculer current_idle_time_remaining = (paxCount * idle time)
+            if (elevator.current_idle_time_remaining === 0){
+                passengersHandler.unloadPassengers(elevator);
+
+                const paxLoadCount = passengersHandler.passengerToLoadCount(elevator);
+                elevator.setCurrentState(ELEVATOR_STATE.LOADING, paxLoadCount);
             }
         } else if (state == ELEVATOR_STATE.LOADING){
-            if (elevator.current_idle_time_remaining == 0)
+            if (elevator.current_idle_time_remaining === 0){
+                passengersHandler.loadPassengers(elevator);
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSING);
+            }
         } else if (state == ELEVATOR_STATE.DOOR_CLOSING){
-            if (elevator.current_idle_time_remaining == 0)
+            if (elevator.current_idle_time_remaining === 0)
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_CLOSED);
         } else if (state == ELEVATOR_STATE.DOOR_CLOSED){
-            if (elevator.current_idle_time_remaining == 0){
+            if (elevator.current_idle_time_remaining === 0){
                 const mustMove = passengersHandler.hasPassengers(elevator) || elevator.destination_floor !== elevator.current_floor;
                 elevator.setCurrentState(mustMove ? ELEVATOR_STATE.MOVING : ELEVATOR_STATE.WAITING);
             }
@@ -83,6 +83,9 @@ export class ElevatorsEventHandler {
             if (elevator.hasReachedDestFloor()){
                 elevator.floor_position = this.parameterHandler.getPositionFromFloor(elevator.destination_floor);
                 elevator.current_floor = elevator.destination_floor;
+                if (elevator.next_destination_floors.length > 0)
+                    elevator.destination_floor = elevator.next_destination_floors.shift();
+
                 elevator.setCurrentState(ELEVATOR_STATE.DOOR_OPENING);
             }
         } else if (state == ELEVATOR_STATE.WAITING){
