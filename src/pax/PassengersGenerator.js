@@ -40,6 +40,6 @@ export class PassengersGenerator {
     }
 
     mustGeneratePassengers(){
-        return Math.random() < 0.05;
+        return Math.random() < this.parameterHandler.getPassengerFlow();
     }
 }

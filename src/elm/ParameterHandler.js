@@ -34,7 +34,13 @@ export class ParameterHandler {
         this.idleTimes[ELEVATOR_STATE.DOOR_CLOSED] = 2;
 
         // PASSENGERS
-        // this.passengerFlowFactor = 1; // pax per tick
+        this.minPassengerFlow = 0;
+        this.maxPassengerFlow = 100;
+        this.passengerFlow = 5;
+
+        this.elevatorCapacity = 10;
+        this.minElevatorCapacity = 1;
+        this.maxElevatorCapacity = 25;
     }
 
     getElevatorSpeed(){
@@ -59,6 +65,10 @@ export class ParameterHandler {
 
     getLowestFloor(){
         return this.lowestFloor;
+    }
+
+    getPassengerFlow(){
+        return this.passengerFlow / 100;
     }
 
     getPositionFromFloor(floor){

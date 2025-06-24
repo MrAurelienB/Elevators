@@ -154,5 +154,21 @@ export class WindowParameterSectionHandler {
 
     addPassengersParameterSection(){
         let panel = this.addAccordionSection('Passengers');
+
+        let passengerFlowInput = this.addIntInputFieldParam(panel, 'Passenger Flow',
+                                                            this.componentFactory.parameterHandler.minPassengerFlow,
+                                                            this.componentFactory.parameterHandler.maxPassengerFlow,
+                                                            this.componentFactory.parameterHandler.passengerFlow);
+        passengerFlowInput.addEventListener('input', () => {
+            this.componentFactory.parameterHandler.passengerFlow = +passengerFlowInput.value;
+        });
+
+        let elevatorCapacityInput = this.addIntInputFieldParam(panel, 'Elevator Max. Capacity',
+                                                          this.componentFactory.parameterHandler.minElevatorCapacity,
+                                                          this.componentFactory.parameterHandler.maxElevatorCapacity,
+                                                          this.componentFactory.parameterHandler.elevatorCapacity);
+        elevatorCapacityInput.addEventListener('input', () => {
+            this.componentFactory.parameterHandler.elevatorCapacity = +elevatorCapacityInput.value;
+        });
     }
 }; // class WindowParameterSectionHandler

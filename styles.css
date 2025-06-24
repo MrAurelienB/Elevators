@@ -91,7 +91,7 @@ display: flex;
 
 .form-field label {
     margin-right: 10px; /* Space between label and input */
-    width: 100px; /* Fixed width for labels */
+    width: 150px; /* Fixed width for labels */
 }
 
 .form-field input {

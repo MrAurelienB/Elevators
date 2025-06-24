@@ -65,7 +65,6 @@ export class PassengersHandler {
         if (elevator.uidx < 0 || elevator.uidx >= this.passengerByElevators.length)
             return;
 
-        
         const floorIdx = this.componentFactory.parameterHandler.getFloorIdx(elevator.current_floor);
 
         // TODO: faire en un seul filtre
@@ -99,11 +98,21 @@ export class PassengersHandler {
         if (current_floor_idx < 0 || current_floor_idx >= this.passengerWaitingByFloors.length)
             return [];
 
+        let maxPaxToLoad = this.componentFactory.parameterHandler.elevatorCapacity - this.getPassengersInElevator(elevator);
+        if (maxPaxToLoad <= 0)
+            return [];
+
         let paxList = [];
         for (let pax of this.passengerWaitingByFloors[current_floor_idx]){
-            if (this.mustPassengerBoardElevator(pax, elevator))
+            if (maxPaxToLoad == 0)
+                break;
+
+            if (this.mustPassengerBoardElevator(pax, elevator)){
                 paxList.push(pax);
+                maxPaxToLoad -= 1;
+            }
         }
+
         return paxList;
     }
 
