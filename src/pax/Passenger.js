@@ -1,4 +1,4 @@
-import {ELEVATOR_DIRECTION} from './Enums.js';
+import {ELEVATOR_DIRECTION} from '../elm/Enums.js';
 
 export class Passenger {
     constructor(uidx, originFloorIdx, destinationFloorIdx){

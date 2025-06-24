@@ -1,8 +1,7 @@
 
 export class PassengersHandler {
-    constructor(parameterHandler, passengersGenerator){
-        this.parameterHandler = parameterHandler;
-        this.passengersGenerator = passengersGenerator;
+    constructor(componentFactory){
+        this.componentFactory = componentFactory;
 
         this.passengerWaitingByFloors = [];
         this.passengerByElevators = [];
@@ -10,7 +9,7 @@ export class PassengersHandler {
 
     update(){
         // remove / add floors
-        const floorCount = this.parameterHandler.getFloorCount();
+        const floorCount = this.componentFactory.parameterHandler.getFloorCount();
         if (this.passengerWaitingByFloors.length > floorCount)
            this.passengerWaitingByFloors.splice(floorCount);
         else if (this.passengerWaitingByFloors.length < floorCount){
@@ -18,7 +17,7 @@ export class PassengersHandler {
                 this.passengerWaitingByFloors.push([]);
         }
 
-        const elevatorCount = this.parameterHandler.elevatorCount;
+        const elevatorCount = this.componentFactory.parameterHandler.elevatorCount;
         if (this.passengerByElevators.length > elevatorCount)
            this.passengerByElevators.splice(elevatorCount);
         else if (this.passengerByElevators.length < elevatorCount){
@@ -26,7 +25,7 @@ export class PassengersHandler {
                 this.passengerByElevators.push([]);
         }
 
-        const newPassengers = this.passengersGenerator.generatePassengersIfNeeded();
+        const newPassengers = this.componentFactory.passengersGenerator.generatePassengersIfNeeded();
         if (newPassengers){
             for (let pax of newPassengers){
                 if (pax.originFloorIdx < 0 || pax.originFloorIdx >= this.passengerWaitingByFloors.length)
@@ -50,7 +49,7 @@ export class PassengersHandler {
     }
 
     mustPassengerBoardElevator(passenger, elevator){
-        if (!this.parameterHandler.showElevatorDestination)
+        if (!this.componentFactory.parameterHandler.showElevatorDestination)
             return true; // passenger goes inside elevator no matter its direction
         else // passenger goes inside elevator only if it matches its direction
             return passenger.getDirection() === elevator.getDirection();
@@ -63,7 +62,7 @@ export class PassengersHandler {
             return;
 
         
-        const floorIdx = this.parameterHandler.getFloorIdx(elevator.current_floor);
+        const floorIdx = this.componentFactory.parameterHandler.getFloorIdx(elevator.current_floor);
 
         // TODO: faire en un seul filtre
         for (let passenger of paxList){
@@ -80,7 +79,7 @@ export class PassengersHandler {
 
         let paxList = [];
         for (let pax of this.passengerByElevators[elevator.uidx]){
-            if (pax.destinationFloorIdx === this.parameterHandler.getFloorIdx(elevator.current_floor))
+            if (pax.destinationFloorIdx === this.componentFactory.parameterHandler.getFloorIdx(elevator.current_floor))
                 paxList.push(pax);
         }
         return paxList;
@@ -92,7 +91,7 @@ export class PassengersHandler {
     }
 
     passengerToLoad(elevator){
-        const current_floor_idx = this.parameterHandler.getFloorIdx(elevator.current_floor);
+        const current_floor_idx = this.componentFactory.parameterHandler.getFloorIdx(elevator.current_floor);
         if (current_floor_idx < 0 || current_floor_idx >= this.passengerWaitingByFloors.length)
             return [];
 
