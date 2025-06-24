@@ -15,7 +15,7 @@ export class ElevatorsHandler {
            this.elevators.splice(this.parameterHandler.elevatorCount);
         else if (this.elevators.length < this.parameterHandler.elevatorCount){
             for (let i = 0; i < this.parameterHandler.elevatorCount - this.elevators.length; i++)
-                this.elevators.push(new Elevator(this.parameterHandler, {initial_floor: 0}));
+                this.elevators.push(new Elevator(this.parameterHandler, this.elevators.length /*uidx*/, {initial_floor: 0}));
         }
 
         for (let elevator of this.elevators)

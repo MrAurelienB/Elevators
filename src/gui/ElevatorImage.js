@@ -17,9 +17,9 @@ export class ElevatorImage {
 
     draw(ctx, x, y, w, h, state, moreThanHalf){
         const rect = (() => {
-            if (state == ELEVATOR_STATE.DOOR_CLOSED || state == ELEVATOR_STATE.MOVING)
+            if (state == ELEVATOR_STATE.DOOR_CLOSED || state == ELEVATOR_STATE.MOVING || state == ELEVATOR_STATE.WAITING)
                 return this.rects[0];
-            if (state == ELEVATOR_STATE.DOOR_OPENED || state == ELEVATOR_STATE.WAITING)
+            if (state == ELEVATOR_STATE.DOOR_OPENED)
                 return this.rects[3];
             if (state == ELEVATOR_STATE.DOOR_CLOSING)
                 return moreThanHalf ? this.rects[1] : this.rects[2];

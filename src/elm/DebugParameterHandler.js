@@ -7,7 +7,7 @@ export class DebugParameterHandler extends ParameterHandler {
         this.lowestFloor = this.minLowestFloor;
         this.highestFloor = this.maxHighestFloor;
 
-        this.elevatorCount = this.maxElevatorCount;
+        this.elevatorCount = 1;//this.maxElevatorCount;
         this.elevatorSpeed = this.maxElevatorSpeed;
     }
 }

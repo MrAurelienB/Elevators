@@ -125,7 +125,7 @@ export class WindowParameterSectionHandler {
             this.parameterHandler.elevatorSpeed = +elevatorSpeedInput.value;
         });
 
-        let showElevatorDestinationCheckBox = this.addCheckBox(panel, 'my checkbox',
+        let showElevatorDestinationCheckBox = this.addCheckBox(panel, 'Passenger know elevator direction',
                                                                this.parameterHandler.showElevatorDestination);
         showElevatorDestinationCheckBox.addEventListener("change", () => {
             this.parameterHandler.showElevatorDestination = showElevatorDestinationCheckBox.checked;

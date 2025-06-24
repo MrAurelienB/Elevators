@@ -1,7 +1,10 @@
+import {Passenger} from './Passenger.js';
 
 export class PassengersGenerator {
     constructor(parameterHandler){
         this.parameterHandler = parameterHandler;
+
+        this.nextUid = 0;
     }
 
     generatePassengersIfNeeded(){
@@ -19,10 +22,12 @@ export class PassengersGenerator {
             while (destinationFloor === null || destinationFloor === originFloor)
                 destinationFloor = this.getRandomInt(this.parameterHandler.minLowestFloor, this.parameterHandler.maxHighestFloor);
 
-            newPassengers.push({
-                originFloor: this.parameterHandler.getFloorIdx(originFloor),
-                destinationFloor: destinationFloor
-            });
+            newPassengers.push(new Passenger(
+                this.nextUid,
+                this.parameterHandler.getFloorIdx(originFloor),
+                this.parameterHandler.getFloorIdx(destinationFloor)
+            ));
+            this.nextUid += 1;
         }
 
         return newPassengers;

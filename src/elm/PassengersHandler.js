@@ -4,29 +4,58 @@ export class PassengersHandler {
         this.parameterHandler = parameterHandler;
         this.passengersGenerator = passengersGenerator;
 
-        this.passengerByFloors = [];
+        this.passengerWaitingByFloors = [];
+        this.passengerByElevators = [];
     }
 
     update(){
         // remove / add floors
-        if (this.passengerByFloors.length > this.parameterHandler.elevatorCount)
-           this.passengerByFloors.splice(this.parameterHandler.elevatorCount);
-        else if (this.passengerByFloors.length < this.parameterHandler.elevatorCount){
-            for (let i = 0; i < this.parameterHandler.elevatorCount - this.passengerByFloors.length; i++)
-                this.passengerByFloors.push([]);
+        const floorCount = this.parameterHandler.getFloorCount();
+        if (this.passengerWaitingByFloors.length > floorCount)
+           this.passengerWaitingByFloors.splice(floorCount);
+        else if (this.passengerWaitingByFloors.length < floorCount){
+            for (let i = 0; i < floorCount - this.passengerWaitingByFloors.length; i++)
+                this.passengerWaitingByFloors.push([]);
+        }
+
+        const elevatorCount = this.parameterHandler.elevatorCount;
+        if (this.passengerByElevators.length > elevatorCount)
+           this.passengerByElevators.splice(elevatorCount);
+        else if (this.passengerByElevators.length < elevatorCount){
+            for (let i = 0; i < elevatorCount - this.passengerByElevators.length; i++)
+                this.passengerByElevators.push([]);
         }
 
         const newPassengers = this.passengersGenerator.generatePassengersIfNeeded();
         if (newPassengers){
-            for (let pax of newPassengers)
-                this.passengerByFloors[pax.originFloor].push(pax);
+            for (let pax of newPassengers){
+                if (pax.originFloorIdx < 0 || pax.originFloorIdx >= this.passengerWaitingByFloors.length)
+                    continue;
+
+                this.passengerWaitingByFloors[pax.originFloorIdx].push(pax);
+            }
         }
     }
 
     getPassengersCount(floorIdx){
-        if (floorIdx < 0 || floorIdx >= this.passengerByFloors.length)
+        if (floorIdx < 0 || floorIdx >= this.passengerWaitingByFloors.length)
             return 0;
-        return this.passengerByFloors[floorIdx].length;
+        return this.passengerWaitingByFloors[floorIdx].length;
+    }
+
+    mustPassengerBoardElevator(passenger, elevator){
+        return true; // by default, always
+    }
+
+    passengerBoardElevator(passenger, elevator){
+        if (elevator.uidx < 0 || elevator.uidx >= this.passengerByElevators.length)
+            return;
+
+        this.passengerByElevators[elevator.uidx].push(passenger);
+
+        this.passengerWaitingByFloors = this.passengerWaitingByFloors.filter(pax => {
+            return pax.uidx !== passenger.uidx;
+        });
     }
 
 } // class PassengersHandler

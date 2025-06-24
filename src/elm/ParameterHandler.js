@@ -30,7 +30,8 @@ export class ParameterHandler {
         this.idleTimes[ELEVATOR_STATE.UNLOADING] = 20; // per people
         this.idleTimes[ELEVATOR_STATE.DOOR_OPENING] = 50;
         this.idleTimes[ELEVATOR_STATE.DOOR_CLOSING] = 50;
-        this.idleTimes[ELEVATOR_STATE.WAITING] = 50; // TODO temporaire le temps que l'on gere le loading/unloading
+        this.idleTimes[ELEVATOR_STATE.DOOR_OPENED] = 5;
+        this.idleTimes[ELEVATOR_STATE.DOOR_CLOSED] = 2;
 
         // PASSENGERS
         // this.passengerFlowFactor = 1; // pax per tick
@@ -43,6 +44,10 @@ export class ParameterHandler {
     getFloorIdx(floor){
         return floor - this.lowestFloor;
     } // getFloorIdx
+
+    getFloorCount(){
+        return this.getHighestFloor() - this.getLowestFloor() + 1;
+    }
 
     getHighestFloor(){
         return this.highestFloor;

@@ -1,9 +1,11 @@
 import {ELEVATOR_DIRECTION, ELEVATOR_STATE} from './Enums.js';
 
 export class Elevator {
-    constructor(parameterHandler, overwriteOptions = {}){
+    constructor(parameterHandler, uidx, overwriteOptions = {}){
 
         this.parameterHandler = parameterHandler;
+
+        this.uidx = uidx;
 
         // this.lowest_accessible_floor = 0;
         // this.highest_accessible_floor = 0;
@@ -43,18 +45,22 @@ export class Elevator {
     hasReachedDestFloor(){
         if (this.current_state != ELEVATOR_STATE.MOVING)
             return true; // loading or waiting
+        if (this.current_direction == ELEVATOR_DIRECTION.NONE)
+            return true;
         if (this.current_direction == ELEVATOR_DIRECTION.DOWN)
             return this.floor_position <= this.parameterHandler.getPositionFromFloor(this.destination_floor);
         if (this.current_direction == ELEVATOR_DIRECTION.UP)
             return this.floor_position >= this.parameterHandler.getPositionFromFloor(this.destination_floor);
-    }
 
-    isReadyToMove(){
-        return this.current_state == ELEVATOR_STATE.DOOR_CLOSED && this.current_idle_time_remaining == 0;
+        const msg = `Error occured in hasReachedDestFloor() ${this.current_direction}`;
+        alert(msg);
     }
 
     setCurrentState(state){
+        console.log(state)
         this.current_state = state;
+        if (state == ELEVATOR_STATE.MOVING)
+            this.current_direction = this.current_floor > this.destination_floor ? ELEVATOR_DIRECTION.DOWN : ELEVATOR_DIRECTION.UP;
         this.current_idle_time_remaining = this.parameterHandler.getIdleTime(state);
     }
 }; // class Elevator
