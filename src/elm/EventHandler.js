@@ -1,6 +1,6 @@
 import {ELEVATOR_DIRECTION, ELEVATOR_STATE} from './Enums.js';
 
-export class ElevatorsEventHandler {
+export class EventHandler {
     constructor(parameterHandler){
         this.parameterHandler = parameterHandler;
     }
@@ -95,4 +95,4 @@ export class ElevatorsEventHandler {
             alert(msg, state);
         }
     }
-}; // class ElevatorsEventHandler
+}; // class EventHandler

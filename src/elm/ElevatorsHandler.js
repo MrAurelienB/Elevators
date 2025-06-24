@@ -2,9 +2,9 @@
 import {Elevator} from './Elevator.js';
 
 export class ElevatorsHandler {
-    constructor(parameterHandler, elevatorsEventHandler, passengersHandler){
+    constructor(parameterHandler, eventHandler, passengersHandler){
         this.parameterHandler = parameterHandler;
-        this.elevatorsEventHandler = elevatorsEventHandler;
+        this.eventHandler = eventHandler;
         this.passengersHandler = passengersHandler;
 
         this.elevators = [];
@@ -20,16 +20,16 @@ export class ElevatorsHandler {
         }
 
         for (let elevator of this.elevators)
-            this.elevatorsEventHandler.onUpdateBefore(elevator);
+            this.eventHandler.onUpdateBefore(elevator);
         for (let elevator of this.elevators)
-            this.elevatorsEventHandler.onUpdate(elevator);
+            this.eventHandler.onUpdate(elevator);
         for (let elevator of this.elevators)
-            this.elevatorsEventHandler.onUpdateAfter(elevator, this.passengersHandler);
+            this.eventHandler.onUpdateAfter(elevator, this.passengersHandler);
     }
 
     goToFloor(elevatorIdx, floorIdx){
         if (elevatorIdx < 0 || elevatorIdx >= this.elevators.length)
             return;
-        this.elevatorsEventHandler.goToFloor(floorIdx, this.elevators[elevatorIdx]);
+        this.eventHandler.goToFloor(floorIdx, this.elevators[elevatorIdx]);
     }
 }; // class ElevatorsHandler

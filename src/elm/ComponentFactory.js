@@ -1,6 +1,6 @@
 import {DebugParameterHandler} from './DebugParameterHandler.js';
-import {ElevatorsEventHandler} from './ElevatorsEventHandler.js';
 import {ElevatorsHandler} from './ElevatorsHandler.js';
+import {EventHandler} from './EventHandler.js';
 import {ParameterHandler} from './ParameterHandler.js';
 import {PassengersGenerator} from './PassengersGenerator.js';
 import {PassengersHandler} from './PassengersHandler.js';
@@ -13,7 +13,7 @@ export class ComponentFactory {
         this.passengersGenerator = new PassengersGenerator(this.parameterHandler);
         this.passengersHandler = new PassengersHandler(this.parameterHandler, this.passengersGenerator);
         
-        this.elevatorsEventHandler = new ElevatorsEventHandler(this.parameterHandler);
-        this.elevatorsHandler = new ElevatorsHandler(this.parameterHandler, this.elevatorsEventHandler, this.passengersHandler);
+        this.eventHandler = new EventHandler(this.parameterHandler);
+        this.elevatorsHandler = new ElevatorsHandler(this.parameterHandler, this.eventHandler, this.passengersHandler);
     }
 }; // class ComponentFactory
