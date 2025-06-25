@@ -5,6 +5,7 @@ export class WindowParameterSectionHandler {
     }
 
     initialize(){
+        this.addControlSection();
         this.addElevatorParameterSection();
         this.addFloorsParameterSection();
         this.addPassengersParameterSection();
@@ -42,16 +43,12 @@ export class WindowParameterSectionHandler {
                     const isAlreadyActive = panel.style.display === 'block';
                     acc[j].classList.toggle('active', !isAlreadyActive);
                     panel.style.display = isAlreadyActive ? 'none' : 'block';
-                }/* else {
-                    // untoggle every other panels
-                    acc[j].classList.toggle('active', false);
-                    panel.style.display = 'none';
-                }*/
+                }
             }
         });
 
         return panel;
-    } // addAccordionSection
+    } // addAccordionSection()
 
     addCheckBox(panel, labelTxt, defaultValue){
         const label = document.createElement('label');
@@ -71,7 +68,35 @@ export class WindowParameterSectionHandler {
         paramDiv.appendChild(checkbox);
         panel.appendChild(paramDiv);
         return checkbox;
-    }
+    } // addCheckBox()
+
+    addControlSection(){
+        let rightTopPanel = document.getElementById('rightTopPanel');
+        rightTopPanel.classList.add('right-top')
+
+        // Create Start/Pause button
+        const pauseStartButton = document.createElement('button');
+        rightTopPanel.appendChild(pauseStartButton);
+        pauseStartButton.classList.add('control-button');
+
+        const pauseStartIcon = document.createElement('i');
+        pauseStartButton.appendChild(pauseStartIcon);
+        pauseStartIcon.className = 'fas fa-pause'; // Start with pause icon (from cloudflare library)
+
+        let isPaused = true;
+        pauseStartButton.addEventListener('click', () => {
+            isPaused = !isPaused;
+            pauseStartIcon.className = isPaused ? 'fas fa-pause' : 'fas fa-play';
+        });
+
+        const resetButton = document.createElement('button');
+        rightTopPanel.appendChild(resetButton);
+        resetButton.classList.add('control-button');
+
+        const resetIcon = document.createElement('i');
+        resetButton.appendChild(resetIcon);
+        resetIcon.className = 'fas fa-arrows-rotate'; // (from cloudflare library)
+    } // addControlSection()
 
     addIntInputFieldParam(panel, labelTxt, min, max, defaultValue){
         const label = document.createElement('label');

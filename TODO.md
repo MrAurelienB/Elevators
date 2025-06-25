@@ -4,6 +4,8 @@
 
 - [ ] ajouter un bouton stop/start
 - [ ] ajouter un bouton reset
+- [ ] rendre les boutons pause/start et reset fonctionnels
+   - la gestion du start/stop reset doit être dans la même classe de BASE qui gère les update
 
 # Modèle
 

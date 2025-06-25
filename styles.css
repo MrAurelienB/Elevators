@@ -18,11 +18,22 @@ canvas {
     width: 100%;
 }
 
+.right-side {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Stack top and bottom panels vertically */
+}
+
+.right-top {
+    width: 100%;
+    display: flex;
+    flex: 1;
+}
+
 .right-div {
     width: 100%;
     height: 100%;
     background-color: lightblue;
-    margin-left: 10px;
 }
 
 .bottom-div {
@@ -79,7 +90,7 @@ label.parameter {
 }
 
 .form-container {
-display: flex;
+    display: flex;
     flex-direction: column; /* Stack the form fields vertically */
     gap: 1em; /* Space between the rows */
 }
@@ -97,4 +108,14 @@ display: flex;
 .form-field input {
     flex-grow: 1; /* Input fields take up remaining space */
     max-width: 60px; /* Optional: limit the input width */
+}
+
+.control-button {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 2em;
+    width: 5em;
+    text-align: center;
 }
