@@ -1,10 +1,10 @@
-import {ElevatorImage} from './ElevatorImage.js';
+import {WindowElevatorImage} from './WindowElevatorImage.js';
 
 export class WindowElevatorsHandler {
     constructor(componentFactory){
         this.componentFactory = componentFactory;
 
-        this.elevatorImage = new ElevatorImage('./resources/images/elevator_doors_3.jpg');
+        this.elevatorImage = new WindowElevatorImage('./resources/images/elevator_doors_3.jpg');
     }
 
     initialize(){

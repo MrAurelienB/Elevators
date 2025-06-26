@@ -1,6 +1,6 @@
 import {ELEVATOR_STATE} from "../elm/elm.js";
 
-export class ElevatorImage {
+export class WindowElevatorImage {
     constructor(){
         this.image = new Image();
         this.image.src = './resources/images/elevator_doors_3.jpg';
@@ -29,4 +29,4 @@ export class ElevatorImage {
         })();
         ctx.drawImage(this.image, rect.x, rect.y, rect.w, rect.h, x, y, w, h);
     }
-}; // class ElevatorImage
+}; // class WindowElevatorImage
