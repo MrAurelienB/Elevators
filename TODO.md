@@ -1,10 +1,14 @@
 
 # UI
 
-- [x] ajouter un bouton stop/start
-- [x] ajouter un bouton reset
-- [ ] rendre les boutons pause/start et reset fonctionnels
-   - la gestion du start/stop reset doit être dans la même classe de BASE qui gère les update
+- [ ] Bouton START/PAUSE
+   - [x] ajouter le bouton
+   - [x] rendre le boutons fonctionnel
+   - [ ] la gestion du bouton doit être dans la classe ENGINE (pas parameterHandler + EventHandler)
+- [ ] Bouton RESET
+   - [x] ajouter le bouton
+   - [ ] rendre le boutons fonctionnel
+   - [ ] la gestion du bouton doit être dans la classe ENGINE (pas parameterHandler + EventHandler)
 
 # Modèle
 
@@ -17,7 +21,9 @@
 
 ## Refactoring
 
-- [ ] Les fonctions EventHandler::onUpdate* sont générales pour le FONCTIONNEMENT des elevators. Elles devraient être dans une classe de BASE, plutôt que dans le EventHandler.
+- [ ] Classe ENGINE (les fonctions EventHandler::onUpdate* sont générales pour le FONCTIONNEMENT des elevators. Elles devraient être dans une classe de BASE, plutôt que dans le EventHandler)
+   - [ ] Créer la classe
+   - [ ] Déplacer le code du EventHandler dans cette nouvelle classe
 
 ## API
 

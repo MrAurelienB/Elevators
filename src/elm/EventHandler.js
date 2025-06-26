@@ -6,6 +6,9 @@ export class EventHandler {
     }
 
     update(){
+        if (this.componentFactory.parameterHandler.isPaused)
+            return;
+        
         this.componentFactory.elevatorsHandler.update();
         this.componentFactory.passengersHandler.update();
     }
