@@ -22,8 +22,9 @@
 ## Refactoring
 
 - [ ] Classe ENGINE (les fonctions EventHandler::onUpdate* sont générales pour le FONCTIONNEMENT des elevators. Elles devraient être dans une classe de BASE, plutôt que dans le EventHandler)
-   - [ ] Créer la classe
+   - [x] Créer la classe
    - [ ] Déplacer le code du EventHandler dans cette nouvelle classe
+   - [ ] Refactoring du EventHandler
 
 ## API
 
