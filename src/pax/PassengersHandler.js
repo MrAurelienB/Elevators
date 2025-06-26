@@ -7,7 +7,7 @@ export class PassengersHandler {
         this.passengerByElevators = [];
     }
 
-    update(){
+    onUpdateBefore(){
         // remove / add floors
         const floorCount = this.componentFactory.parameterHandler.getFloorCount();
         if (this.passengerWaitingByFloors.length > floorCount)
@@ -24,7 +24,9 @@ export class PassengersHandler {
             for (let i = 0; i < elevatorCount - this.passengerByElevators.length; i++)
                 this.passengerByElevators.push([]);
         }
+    } // onUpdateBefore()
 
+    onUpdate(){
         const newPassengers = this.componentFactory.passengersGenerator.generatePassengersIfNeeded();
         if (newPassengers){
             for (let pax of newPassengers){
@@ -34,7 +36,7 @@ export class PassengersHandler {
                 this.passengerWaitingByFloors[pax.originFloorIdx].push(pax);
             }
         }
-    }
+    } // onUpdate()
 
     getPassengersInElevator(elevator){
         if (elevator.uidx < 0 || elevator.uidx >= this.passengerByElevators.length)

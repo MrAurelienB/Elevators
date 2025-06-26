@@ -84,8 +84,8 @@ export class WindowParameterSectionHandler {
         pauseStartIcon.className = 'fas fa-pause'; // Start with pause icon (from cloudflare library)
 
         pauseStartButton.addEventListener('click', () => {
-            this.componentFactory.parameterHandler.isPaused = !this.componentFactory.parameterHandler.isPaused;
-            pauseStartIcon.className = this.componentFactory.parameterHandler.isPaused ? 'fas fa-play' : 'fas fa-pause';
+            this.componentFactory.engine.isPaused = !this.componentFactory.engine.isPaused;
+            pauseStartIcon.className = this.componentFactory.engine.isPaused ? 'fas fa-play' : 'fas fa-pause';
         });
 
         const resetButton = document.createElement('button');

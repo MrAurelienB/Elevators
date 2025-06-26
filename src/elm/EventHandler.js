@@ -5,14 +5,6 @@ export class EventHandler {
         this.componentFactory = componentFactory;
     }
 
-    update(){
-        if (this.componentFactory.parameterHandler.isPaused)
-            return;
-        
-        this.componentFactory.elevatorsHandler.update();
-        this.componentFactory.passengersHandler.update();
-    }
-
     // basically to give orders to elevators
     onUpdateBefore(elevator){
         // random: 0.5% chance that a call is made.

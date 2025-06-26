@@ -17,7 +17,7 @@ export class WindowElevatorsHandler {
     }
 
     update(){
-        this.componentFactory.eventHandler.update();
+        this.componentFactory.engine.update();
     }
 
     draw(canvas, ctx){

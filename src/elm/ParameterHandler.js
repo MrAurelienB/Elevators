@@ -41,9 +41,6 @@ export class ParameterHandler {
         this.elevatorCapacity = 10;
         this.minElevatorCapacity = 1;
         this.maxElevatorCapacity = 25;
-
-        // TODO: déplacer dans la future classe de base "engine"
-        this.isPaused = false;
     }
 
     getElevatorSpeed(){
