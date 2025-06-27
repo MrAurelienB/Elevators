@@ -81,13 +81,16 @@ export class WindowParameterSectionHandler {
 
         const pauseStartIcon = document.createElement('i');
         pauseStartButton.appendChild(pauseStartIcon);
-        pauseStartIcon.className = 'fas fa-pause'; // Start with pause icon (from cloudflare library)
+        pauseStartIcon.className = this.componentFactory.engine.isPaused ? 'fas fa-play' : 'fas fa-pause'; // Start with pause icon (from cloudflare library)
 
+        let isPaused = this.componentFactory.engine.isPaused;
         pauseStartButton.addEventListener('click', () => {
-            this.componentFactory.engine.isPaused = !this.componentFactory.engine.isPaused;
-            pauseStartIcon.className = this.componentFactory.engine.isPaused ? 'fas fa-play' : 'fas fa-pause';
+            isPaused = !isPaused;
+            pauseStartIcon.className = isPaused ? 'fas fa-play' : 'fas fa-pause';
+            this.componentFactory.engine.isPaused = isPaused;
         });
 
+        // Create Reset button
         const resetButton = document.createElement('button');
         rightTopPanel.appendChild(resetButton);
         resetButton.classList.add('control-button');
@@ -95,6 +98,12 @@ export class WindowParameterSectionHandler {
         const resetIcon = document.createElement('i');
         resetButton.appendChild(resetIcon);
         resetIcon.className = 'fas fa-arrows-rotate'; // (from cloudflare library)
+
+        resetButton.addEventListener('click', () => {
+            this.componentFactory.reset();
+            pauseStartIcon.className = isPaused ? 'fas fa-play' : 'fas fa-pause';
+            this.componentFactory.engine.isPaused = isPaused;
+        });
     } // addControlSection()
 
     addIntInputFieldParam(panel, labelTxt, min, max, defaultValue){

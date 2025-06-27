@@ -7,8 +7,7 @@
    - [x] la gestion du bouton doit être dans la classe ENGINE (pas parameterHandler + EventHandler)
 - [ ] Bouton RESET
    - [x] ajouter le bouton
-   - [ ] rendre le bouton fonctionnel
-   - [ ] la gestion du bouton doit être dans la classe ENGINE (pas parameterHandler + EventHandler)
+   - [x] rendre le bouton fonctionnel
 
 # Modèle
 

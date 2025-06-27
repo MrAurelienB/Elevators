@@ -9,6 +9,10 @@ import {DEBUG_MODE} from './Constants.js';
 
 export class ComponentFactory {
     constructor(){
+        this.reset();
+    }
+
+    reset(){
         this.parameterHandler = DEBUG_MODE ? new DebugParameterHandler() : new ParameterHandler();
 
         this.elevatorsHandler = new ElevatorsHandler(this);
